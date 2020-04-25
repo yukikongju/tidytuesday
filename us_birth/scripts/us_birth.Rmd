@@ -1,0 +1,75 @@
+---
+title: "US Birth"
+author: "YukiKongJu"
+date: "25/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+```
+
+## Load Data
+
+```{r echo=false}
+
+folder1 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/us_birth/data/US_births_1994-2003_CDC_NCHS.csv"
+folder2 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/us_birth/data/US_births_2000-2014_SSA.csv"
+
+us_births_1994_2003_raw <- read.csv(file = folder1, header = TRUE, sep=",")
+us_births_2000_2014_raw <- read.csv(file= folder2, header = TRUE, sep = ",")
+
+us_births_2000_2014_raw$births <- as.numeric(us_births_2000_2014_raw$births)
+us_births_1994_2003_raw$births <- as.numeric(us_births_1994_2003_raw$births)
+
+overlap <- us_births_1994_2003_raw %>% 
+  rename(births2 = births) %>% 
+  merge(us_births_2000_2014_raw) %>% 
+  rowwise() %>% 
+  mutate(births3=round(mean(c(births, births2)), 0)) %>% 
+  select(-c(births, births2)) %>% 
+  rename(births=births3)
+
+
+```
+
+## Data Preprocessing
+
+```{r echo=FALSE}
+
+## make ts
+library(xts)
+
+births_ts <- overlap %>% 
+  unite("date", year, month, date_of_month, sep = "-") %>% 
+  mutate(date=as.Date(date)) %>% 
+  select(-c(day_of_week)) 
+
+births_ts <- xts(births_ts[,-1], order.by = as.Date(births_ts[,'date'], format="%m%d%y") )
+
+## group birth day by year
+
+
+```
+
+## Data Exploration
+
+```{r}
+
+## make heatmap by day of the week
+
+
+
+
+## make time series
+
+library(forecast)
+autoplot(births_ts)
+
+```
+
