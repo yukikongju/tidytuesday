@@ -1,0 +1,45 @@
+---
+title: "NFL Attendance Exploratory Analysis"
+author: "YukiKongJu"
+date: "26/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import Data
+```{r echo= false}
+attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/attendance.csv')
+standings <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/standings.csv')
+games <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+```
+
+## Save Data in Directory
+
+```{r}
+
+folder1 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/nfl_attendance/data/attendance.csv"
+folder2 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/nfl_attendance/data/standings.csv"
+folder3 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/nfl_attendance/data/games.csv"
+
+write.csv(attendance, file = folder1, row.names = FALSE)
+write.csv(standings, file = folder2, row.names = FALSE)
+write.csv(games, file = folder3, row.names = FALSE)
+
+
+```
+
+
+## Load Data
+
+```{r  echo=FALSE}
+
+attendance <- read.csv(folder1, header = TRUE, sep = ",")
+standings <- read.csv(folder2, header = TRUE, sep = ",")
+games <- read.csv(folder3, header = TRUE, sep = ",")
+
+```
+
+
