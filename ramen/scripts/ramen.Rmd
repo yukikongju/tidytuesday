@@ -7,6 +7,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(forcats)
 ```
 
 ## Load Data
