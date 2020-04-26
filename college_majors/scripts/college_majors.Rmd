@@ -99,7 +99,7 @@ majors_diff %>%
   xlab("Field")+
   ylab("Median Income ($)")
 
-
+ggsave("average_income_diff.png")
 
 ```
 
