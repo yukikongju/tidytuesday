@@ -1,0 +1,60 @@
+---
+title: "Federal Research and Development Exploratory Analysis"
+author: "YukiKongJu"
+date: "26/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+```
+
+## Import Data
+
+```{r cars}
+
+fed_rd <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-12/fed_r_d_spending.csv")
+energy_spend <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-12/energy_spending.csv")
+climate_spend <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-12/climate_spending.csv")
+
+```
+
+## Save Files
+
+```{r echo=false}
+
+folder1 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/federal_research/data/fed_rd_spending.csv"
+folder2 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/federal_research/data/energy_spending.csv"
+folder3 <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/federal_research/data/climate_spending.csv"
+
+write.csv(fed_rd, file = folder1, row.names = FALSE)
+write.csv(energy_spend, file = folder2, row.names = FALSE)
+write.csv(climate_spend, file = folder3, row.names = FALSE)
+
+```
+
+## Load Data
+
+```{r echo=false}
+
+fed_rd <- read.csv(file = folder1, header = TRUE, sep = ",")
+energy_spend <- read.csv(file = folder2, header = TRUE, sep = ",")
+climate_spend <- read.csv(file = folder3, header = TRUE, sep = ",")
+
+```
+
+## Data Preprocessing
+
+```{r}
+
+```
+
+
+
+## Data Cleaning
+
+```{r  echo=FALSE}
+
+```
