@@ -1,0 +1,84 @@
+---
+title: "Ramen Exploratory Analysis"
+author: "YukiKongJu"
+date: "25/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data
+
+```{r echo=FALSE}
+
+ramen_ratings_raw <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-04/ramen_ratings.csv")
+
+```
+
+## Data Preprocessing
+
+```{r echo=FALSE}
+
+# convert as factor
+ramen_ratings_raw$variety <- as.factor(ramen_ratings_raw$variety)
+ramen_ratings_raw$brand <- as.factor(ramen_ratings_raw$brand)
+ramen_ratings_raw$style <- as.factor(ramen_ratings_raw$style)
+ramen_ratings_raw$country <- as.factor(ramen_ratings_raw$country)
+
+str(ramen_ratings_raw)
+
+# levels
+levels(ramen_ratings_raw$variety) # too much don't loads
+levels(ramen_ratings_raw$brand)   # too much don't loads
+levels(ramen_ratings_raw$style)
+levels(ramen_ratings_raw$country)
+
+```
+
+## Exploratory Analysis
+
+### Which Country produce the most variety of Ramen
+
+```{r}
+
+# number of variety by country
+ramen_variety <- ramen_ratings_raw %>% 
+  group_by(country) %>% 
+  count(country) %>% 
+  as.data.frame()
+
+# plot
+ramen_variety %>% 
+  arrange(desc(country)) %>% 
+  mutate(country= fct_reorder(country, (n))) %>% 
+  top_n(20) %>% 
+  ggplot(aes(country, n, label=n))+
+  geom_text()+
+  #geom_point()+
+  coord_flip()
+
+```
+Note: Generally, Asian countries are the one making new ramen varieties
+
+### Which brand makes the style of ramen?
+
+```{r}
+
+ramen_ratings_raw %>% 
+  group_by(style, brand) %>% 
+  count()
+
+```
+
+
+
+
+### More exploration
+
+  * Which country makes the best ramen?
+  * Which brand makes the best style of ramen
+
+
+
