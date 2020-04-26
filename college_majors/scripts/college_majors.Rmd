@@ -1,0 +1,131 @@
+---
+title: "College Major Income"
+author: "YukiKongJu"
+date: "25/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(forcats)
+```
+
+## Load Data
+
+```{r }
+
+folder <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/college_majors/data/recent-grads.csv"
+college_raw <- read.csv(file = folder, sep = ",", header = TRUE)
+
+```
+
+## Data Preprocessing
+
+```{r  echo=FALSE}
+
+college_processed <- college_raw %>%
+  mutate(Major=str_to_title(Major)) 
+
+college_processed$Major <- as.factor(college_processed$Major )
+
+str(college_processed)
+
+```
+
+## Data exploration
+
+### How much do new grad makes
+
+```{r echo=FALSE}
+
+# hist
+college_processed %>% 
+  ggplot(aes(Median))+
+  geom_histogram()
+
+# boxplot
+college_processed %>% 
+  mutate(Major_category = fct_reorder(Major_category, Median)) %>% 
+  ggplot(aes(Major_category, Median))+
+  geom_boxplot()+
+  coord_flip()
+
+
+```
+
+Note: There seems to be a spectrum ranging from STEM fields to liberal arts.
+
+## Which major makes the most money
+
+```{r}
+
+college_processed %>% 
+  arrange(desc(Median)) %>% 
+  head(20) %>% 
+  mutate(Major=fct_reorder(Major, Median)) %>%
+  ggplot(aes(Major, Median))+
+  geom_point( aes(color=Major_category),alpha=0.7)+
+  geom_text(aes(label=Median), hjust=-1)+
+  coord_flip()+
+  ggtitle("Top 20 majors that make the most money")+
+  xlab("Major")+
+  ylab("Median ($)")
+
+```
+
+Note: We see that engineering majors make the most money.
+
+```{r}
+
+# preprocess data
+majors_diff <- college_processed
+majors_diff$Median_diff <- round(college_processed$Median- mean(college_processed$Median))
+majors_diff$Median_type <- ifelse(majors_diff$Median_diff>0, "above", "below") %>% 
+  as.factor()
+
+# draw diverging barchart
+majors_diff %>% 
+  ggplot(aes(Major_category, Median_diff, label=Median_diff))+
+  geom_bar(stat='identity', aes(fill=Median_type))+
+  scale_fill_manual(name="Median Type", 
+                    labels=c("Above Average", "Below Average"),
+                    values = c("above"="#00ba38", "below"="#f8766d"))+
+  coord_flip()+
+  ggtitle("Will your earn more than the average graduate?")+
+  xlab("Field")+
+  ylab("Median Income ($)")
+
+
+
+```
+
+
+
+## Which majors is the most popular? among women?
+
+```{r}
+
+college_processed %>% 
+  arrange(desc(Total)) %>% 
+  head(20) %>% 
+  mutate(Major=fct_reorder(Major, (Total))) %>% 
+  ggplot(aes(Major,Total))+
+  geom_col(alpha=0.5)+
+  coord_flip()
+
+```
+
+## What is the relationship between your sex and your income
+
+```{r}
+
+```
+
+## What to explore next
+
+  * Is your major worth taking? (income vs cost, job that requires no degree)
+  * Will you find a job after graduating (employed, full-time, part-time, unemployed, unemployment rate)
