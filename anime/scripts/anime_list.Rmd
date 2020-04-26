@@ -1,0 +1,46 @@
+---
+title: "Anime Exploratory Analysis"
+author: "YukiKongJu"
+date: "25/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(forcats)
+```
+
+## Import Data
+
+```{r echo=false}
+
+tidy_anime <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-23/tidy_anime.csv")
+
+folder <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/anime/data/tidy_anime.csv"
+write.csv(tidy_anime, file = folder, row.names=FALSE)
+```
+
+## Load Data
+
+```{r}
+
+tidy_anime <- read.csv(file = folder, sep = ",", header = TRUE) %>% 
+  select(-c(X))
+
+```
+
+## Data Cleaning
+
+```{r}
+
+str(tidy_anime)
+
+
+
+```
+
+
