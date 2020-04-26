@@ -1,0 +1,70 @@
+---
+title: "Board Games Exploratory Analysis"
+author: "YukiKongJu"
+date: "25/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(forcats)
+```
+
+## Load Data
+
+```{r echo=false}
+
+folder <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/boardgames/data/board_games.csv"
+board_games <- read.csv(file = folder, sep = ",", header = TRUE)
+
+```
+
+## Data Cleaning
+
+```{r}
+
+str(board_games)
+
+```
+
+## View Data
+
+```{r}
+
+# number of games published by year
+board_games %>% 
+  group_by(year_published) %>% 
+  count()
+
+# number of games by playing time
+board_games %>% 
+  group_by(playing_time) %>% 
+  count()
+
+# rating
+board_games %>% 
+  group_by(users_rated) %>% 
+  count()
+
+```
+
+## Data Cleaning
+
+```{r}
+
+board_games$average_rating <- round(board_games$average_rating, 2)
+
+```
+
+
+
+## Exploratory Data Analysis
+
+```{r}
+
+```
+
