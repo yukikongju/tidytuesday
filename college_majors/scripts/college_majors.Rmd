@@ -99,7 +99,8 @@ majors_diff %>%
   xlab("Field")+
   ylab("Median Income ($)")
 
-ggsave("average_income_diff.png")
+dir <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/college_majors/images/average_income_diff.png"
+ggsave(dir)
 
 ```
 
