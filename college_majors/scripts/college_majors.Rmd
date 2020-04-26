@@ -113,17 +113,36 @@ college_processed %>%
   arrange(desc(Total)) %>% 
   head(20) %>% 
   mutate(Major=fct_reorder(Major, (Total))) %>% 
-  ggplot(aes(Major,Total))+
-  geom_col(alpha=0.5)+
+  gather(Gender, Number, Men, Women) %>% 
+  ggplot(aes(Major,Total, fill=Gender))+
+  geom_col()+
   coord_flip()
 
 ```
+Note: Majors outside STEM field seem to be more popular among students, maybe because they are easier to get into.
 
 ## What is the relationship between your sex and your income
 
 ```{r}
 
 ```
+
+
+## Employment Rate
+
+```{r}
+
+college_processed %>% 
+  arrange(desc(Employed)) %>% 
+  head(20) %>% 
+  mutate(Employed=fct_reorder(Major_category, desc(Employed))) %>% 
+  gather(Employement, Number, Full_time, Part_time, Unemployed) %>% 
+  ggplot(aes(Major_category, Employed, fill=Employement))+
+  geom_col()+
+  coord_flip()
+
+```
+
 
 ## What to explore next
 
