@@ -109,14 +109,17 @@ animate <- fed_rd %>%
   ggplot(aes(year, rd_budget, color=department))+
   geom_line()+
   geom_point()+
-  geom_text(aes(label = department))+
+  geom_text(aes(label = department), hjust=-0.5)+
   scale_color_viridis_d()+
   theme(legend.position = "none")+
   labs(x = "Year", y = "Budget ($)", 
        title = "US Federal Budget by Department")
 
-animate + transition_reveal(year) + 
-  transition_time(year)
+#  subtitle = "Year: {frame_time}"
+animate + transition_reveal(year) 
+
+dir <- "C:/Users/emuli/OneDrive/Documents/R/Projects/tidytuesday/federal_research/images/federal_budget.gif"
+anim_save(dir)
 ```
 
 
