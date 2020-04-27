@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(lubridate)
 
 ```
 
@@ -49,6 +50,7 @@ births_ts <- overlap %>%
   unite("date", year, month, date_of_month, sep = "-") %>% 
   mutate(date=as.Date(date)) %>% 
   select(-c(day_of_week)) 
+births_ts %>% head()
 
 births_ts <- xts(births_ts[,-1], order.by = as.Date(births_ts[,'date'], format="%m%d%y") )
 
@@ -63,13 +65,21 @@ births_ts <- xts(births_ts[,-1], order.by = as.Date(births_ts[,'date'], format="
 
 ## make heatmap by day of the week
 
-
-
-
 ## make time series
 
-library(forecast)
-autoplot(births_ts)
+```
+
+
+## How many births are there everyday?
+
+```{r}
+
+# import calendar heat map
+source("https://raw.githubusercontent.com/iascchen/VisHealth/master/R/calendarHeat.R")
+
+calendarHeat(births_ts$date, births_ts$births, ncolors = 99, color = "g2r", varname="US Births from 2000 to 2003")
+
+
 
 ```
 
