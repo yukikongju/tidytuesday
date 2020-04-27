@@ -11,7 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(stringr)
 library(dplyr)
+library(tidyr)
 library(forcats)
+library(viridis)
+library(hrbrthemes)
 ```
 
 ## Load Data
@@ -30,7 +33,7 @@ college_raw <- read.csv(file = folder, sep = ",", header = TRUE)
 college_processed <- college_raw %>%
   mutate(Major=str_to_title(Major)) 
 
-college_processed$Major <- as.factor(college_processed$Major )
+college_processed$Major <- as.factor(college_processed$Major)
 
 str(college_processed)
 
@@ -50,9 +53,16 @@ college_processed %>%
 # boxplot
 college_processed %>% 
   mutate(Major_category = fct_reorder(Major_category, Median)) %>% 
-  ggplot(aes(Major_category, Median))+
+  mutate(type=ifelse(Major_category=='Engineering', 'Highlighted', 'Normal')) %>% 
+  ggplot(aes(Major_category, Median, fill=type, alpha=type))+
   geom_boxplot()+
-  coord_flip()
+  coord_flip()+
+  scale_fill_manual(values = c("#69b3a2", "grey"))+
+  scale_alpha_manual(values = c(1,0.1))+
+  theme_ipsum()+
+  theme(legend.position = "none")+
+  xlab("Major Category")+
+  ylab("Median Income ($)")
 
 
 ```
@@ -122,6 +132,15 @@ college_processed %>%
 ```
 Note: Majors outside STEM field seem to be more popular among students, maybe because they are easier to get into.
 
+```{r}
+
+college_processed %>% 
+  arrange(desc(Total))
+  ggplot()
+
+```
+
+
 ## What is the relationship between your sex and your income
 
 ```{r}
@@ -144,6 +163,14 @@ college_processed %>%
 
 ```
 
+
+```{r}
+
+
+
+
+
+```
 
 ## What to explore next
 
