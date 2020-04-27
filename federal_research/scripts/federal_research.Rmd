@@ -8,6 +8,14 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(xts)
+library(hrbrthemes)
+library(gganimate)
+
+theme_set(theme_bw())
 
 ```
 
@@ -45,16 +53,70 @@ climate_spend <- read.csv(file = folder3, header = TRUE, sep = ",")
 
 ```
 
-## Data Preprocessing
-
-```{r}
-
-```
-
-
-
 ## Data Cleaning
 
 ```{r  echo=FALSE}
 
+str(fed_rd)
+str(energy_spend)
+str(climate_spend)
+
 ```
+
+## Data Preprocessing
+
+```{r}
+
+# make ts
+fed_rd <- fed_rd %>% 
+  as.data.frame()
+
+fed_budget <- fed_rd %>% 
+  select(c(year, department, rd_budget)) %>% 
+  pivot_wider(names_from = "department", values_from = "rd_budget") %>% 
+  as.data.frame()
+fed_budget %>%  head()
+str(fed_budget)
+
+fed_budget_ts <- xts(fed_budget[,-1], order.by = as.Date(fed_budget[,'year']), format= "%m%y%d")
+fed_rd_ts %>% head()
+
+fed_rd_ts <- xts(fed_rd[,-2], order.by = as.Date(fed_rd[,'year']), format= "%m%y%d")
+
+```
+
+
+## Data Exploration
+
+```{r}
+
+# view department classes
+levels(fed_rd$department)
+levels(energy_spend$department)
+levels(climate_spend$department)
+
+```
+
+### Which Department has the most budget?
+
+```{r}
+
+# autoplot ts
+
+# scatter plot budget by year, president
+animate <- fed_rd %>% 
+  group_by(department) %>% 
+  ggplot(aes(year, rd_budget, color=department))+
+  geom_line()+
+  geom_point()+
+  geom_text(aes(label = department))+
+  scale_color_viridis_d()+
+  theme(legend.position = "none")+
+  labs(x = "Year", y = "Budget ($)", 
+       title = "US Federal Budget by Department")
+
+animate + transition_reveal(year) + 
+  transition_time(year)
+```
+
+
