@@ -12,6 +12,7 @@ library(ggplot2)
 library(stringr)
 library(dplyr)
 library(forcats)
+library(extrafont)
 ```
 
 ## Import Data
@@ -39,8 +40,80 @@ tidy_anime <- read.csv(file = folder, sep = ",", header = TRUE) %>%
 
 str(tidy_anime)
 
+levels(tidy_anime$source)
+
+```
+
+## Data Exploration
+
+### Anime by Genre
+
+```{r}
+
+loadfonts(device = "win")
+fonts()
+
+tidy_anime %>%
+  select(genre) %>% 
+  group_by(genre) %>% 
+  count() %>% 
+  as.data.frame() %>% 
+  mutate(genre = fct_reorder(genre, n),
+         pct = round(n/sum(n), 4) * 100) %>% 
+  arrange(desc(genre, n)) %>% 
+  top_n(10) %>% 
+  ggplot(aes(genre, n))+
+  geom_bar(stat = "identity", 
+           fill = "indianred3", 
+           color = "black")+
+  geom_text(aes(label= paste0(pct, " %")), hjust=-0.25)+
+  coord_flip()+
+  labs(title= "Top 10 Most Popular Anime Genre",
+      x= "Genre", y = "Top 10 Anime Genre" )+
+  theme(text = element_text(size=16, family="Comic Sans MS"))
+
 
 
 ```
 
 
+
+### Which anime is the most popular?
+
+```{r}
+
+```
+
+
+### Which anime is the best rated?
+
+```{r}
+
+# tidy_anime %>%
+#   filter(source=='Manga') %>% 
+#   distinct(name, .keep_all = TRUE) %>%
+#   arrange(rank) %>%
+#   head(20) %>%
+#   mutate(name=fct_reorder(name, score)) %>%
+#   ggplot()+
+#   geom_col(aes(name, score))+
+#   geom_text(aes(name, -8+score, label=toupper(score)), hjust=-1)+
+#   scale_y_continuous(limits = c(0, 12), expand = c(0,0)) +coord_flip()
+
+```
+
+### Relationship between score and popularity
+
+```{r}
+set.seed(420)
+
+tidy_anime %>% 
+  sample_n(800) %>% 
+  ggplot(aes(score, popularity))+
+  geom_jitter(alpha=0.1, na.rm = TRUE)+
+  geom_smooth(method = "lm", se = TRUE)
+
+```
+
+Note: There seems to be a relationship between score and popularity: an well like-anime is often a popular one.
+### Which genre is the most popular
