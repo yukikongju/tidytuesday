@@ -163,10 +163,20 @@ college_processed %>%
 
 ```
 
-
+### Women vs Men Distribution in US Majors
 ```{r}
 
-
+college_processed %>%
+  group_by(Major_category) %>% 
+  summarise(Total= sum(Total),
+            Men= sum(Men),
+            Women = sum(Women)) %>% 
+  arrange(desc(Total)) %>%
+  mutate(Major_category = fct_reorder(Major_category, (Total))) %>%
+  ggplot(aes(Major_category, Total)) +
+  geom_bar(stat = "identity")+
+  coord_flip()
+  
 
 
 
