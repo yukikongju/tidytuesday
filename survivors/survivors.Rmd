@@ -1,0 +1,249 @@
+---
+title: "Exploring the survivors dataset"
+output: html_document
+---
+
+```{r , include=FALSE}
+
+# system('sudo apt install libcairo2-dev')
+# devtools::install_github("hrbrmstr/hrbrthemes")
+
+library(tmap)
+library(maps)
+library(usmap)
+library(spData)
+# library(spDataLarge)
+library(sf)
+library(raster)
+library(leaflet)
+library(survivoR)
+library(ggplot2)
+library(lubridate)
+library(hrbrthemes)
+library(plotly)
+library(tidyr)
+library(dplyr)
+
+castaway_details <- survivoR::castaway_details
+castaways <- survivoR::castaways
+challenge_description <- survivoR::challenge_description
+challenge_results <- survivoR::challenge_results
+challenges <- survivoR::challenges
+confessionals <- survivoR::confessionals
+hidden_idols <- survivoR::hidden_idols
+jury_votes <- survivoR::jury_votes
+season_palettes <- survivoR::season_palettes
+season_summary <- survivoR::season_summary
+tribe_colours <- survivoR::tribe_colours
+tribe_mapping <- survivoR::tribe_mapping
+viewers <- survivoR::viewers
+vote_history <- survivoR::vote_history
+```
+
+
+# Data Wrangling
+
+
+```{r}
+
+
+```
+
+
+Inspiration: https://gradientdescending.com/survivor-data-from-the-tv-series-in-r/
+
+# Survivors Location
+
+
+
+# Castaways - Exploring Players Stats
+
+Where do players come from?
+
+```{r }
+# tm_shape(usmapdata::us_map) +
+#   tm_fill() +
+#   tm_borders()
+
+
+
+
+```
+
+
+Who played the most
+
+```{r}
+participations_count <- castaways %>% 
+  group_by(castaway_id, full_name) %>%
+  summarise(num_participations=n()) %>% 
+  arrange(desc(num_participations))
+```
+
+### Memorable players - Played at least two seasons or made the jury
+
+```{r, echo=FALSE}
+
+num_players <- as.integer(nrow(castaways %>% select(castaway_id) %>% distinct() %>% arrange(castaway_id)))
+
+went_far <- castaways %>% 
+  filter(!is.na(jury_status) | (result %in% c('Sole Survivor', 'Runner-up'))) %>% 
+  group_by(castaway_id, full_name) %>% 
+  summarise(has_made_jury=TRUE) 
+
+has_made_jury <- castaways %>% 
+  select(castaway_id, full_name) %>% 
+  distinct() %>% 
+  left_join(went_far) %>% 
+  mutate(has_made_jury=ifelse(is.na(has_made_jury), FALSE, TRUE)) %>% 
+  arrange(castaway_id)
+
+players <- castaways %>% 
+  select(castaway_id, full_name) %>% 
+  left_join(participations_count, by=c("castaway_id", "full_name")) %>% 
+  left_join(has_made_jury, by=c("castaway_id", "full_name"))
+
+```
+
+```{r, echo=FALSE}
+
+mediocre_players <- players %>% 
+  filter(has_made_jury==FALSE & (num_participations == 1))
+
+okay_players <- players %>% 
+  filter((has_made_jury==FALSE) & (num_participations > 1)) 
+
+memorable_players <- players %>% 
+  filter((has_made_jury==TRUE) & (num_participations > 1))
+
+winners <- castaways %>% 
+  filter(result == 'Sole Survivor')
+
+
+# goats <- players %>% 
+#   filter((has_made_jury==TRUE) & (num_participations > 2)) 
+
+
+```
+
+
+
+# Challenges 
+
+Types of challenges
+
+```{r }
+within(challenge_description, rm(challenge_id, challenge_name)) %>% 
+  summarise_each( funs = mean) %>% 
+  sapply(round, 3) * 100
+```
+
+
+
+
+# Winners - 
+
+### Winners confessionals vs rest of people
+
+```{r , echo=FALSE}
+# num_confessionals <- aggregate(confessionals$confessional_count, by=list(Season=confessionals$season_name, Cast=confessionals$castaway, ID = confessionals$castaway_id), FUN=sum)
+
+num_confessionals <- confessionals %>% 
+  semi_join(castaways, by ="castaway_id") %>% 
+  group_by(season_name, castaway, castaway_id) %>% 
+  summarise(Confessional_Count=sum(confessional_count)) %>% 
+  arrange(desc(Confessional_Count))
+
+confessions <- num_confessionals %>% 
+  inner_join(castaways, by=c("castaway_id", "season_name", "castaway")) %>% 
+  select(c("season_name",  "full_name", "Confessional_Count", "result", "personality_type", "total_votes_received", "immunity_idols_won", "castaway_id", "season")) %>% 
+  arrange(season, desc(Confessional_Count)) 
+
+# TODO: add ranking
+
+
+num_confessionals %>% 
+  ggplot(aes(x=, y=Confessional_Count))
+```
+
+
+### Winners Personality Types (vs norm)
+
+Il y a 16 types de personnalités. On s'attend à ce que le nombre de personnes dans chaque classe représente autour de 1/16 ie 6.25%
+
+```{r , echo=FALSE}
+
+
+personality_count <- castaways %>% group_by(personality_type) %>% summarise(count= n()) 
+personality_count$perc <- personality_count$count / nrow(castaways) * 100 
+
+# sort winners by introvert and extrovert
+introvert_count <- function(df) {
+  df$is_introvert <- ifelse(substr(df$personality_type,1,1) == "I", TRUE, FALSE)
+  introvert_count <- df %>% group_by(is_introvert) %>% summarise(count = n())
+  return(introvert_count)
+}
+
+introvert_count(winners)
+introvert_count(castaways)
+
+```
+
+
+### Winners votes out 
+
+```{r , echo=FALSE}
+
+plot_lm <- function(x, y) {
+  reg <- lm(y~x)
+  summary(reg)
+  plot(x, y)
+  abline(reg, col='red')
+}
+
+plot_lm(castaways$day, castaways$total_votes_received)
+
+```
+
+Le nombre de votes n'est pas un bon prédicteur pour déterminer le gagnant
+
+### Immunity Idols
+
+```{r}
+plot_lm(castaways$day, castaways$immunity_idols_won)
+
+castaways$is_winner = ifelse(castaways$result == 'Sole Survivor', TRUE, FALSE)
+
+plot(castaways$day, castaways$immunity_idols_won, col = ifelse(castaways$result == 'Sole Survivor', "green", "black"))
+
+```
+# Show Rating - 
+
+Has the show popularity decline/quality? (sort by color)
+
+```{r}
+p <- viewers %>% 
+  ggplot(aes(x=episode_date, y=viewers)) +
+    geom_area(fill="#69b3a2", alpha=0.5) +
+    geom_line(color="#69b3a2") +
+    ylab("Viewers (millions") + 
+    xlab("Date") +
+    theme_ipsum() 
+
+ggplotly(p)
+
+```
+
+IMDB Rating
+
+```{r}
+
+```
+
+# Jury
+
+
+
+
+
+
