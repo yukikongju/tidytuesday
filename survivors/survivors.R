@@ -1,6 +1,8 @@
 # installing the package
 install.packages("survivoR")
 install.packages("plotly")
+install.packages("maptools")
+install.packages("rgdal") 
 
 library(plotly)
 

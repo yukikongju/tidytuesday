@@ -23,6 +23,7 @@ library(hrbrthemes)
 library(plotly)
 library(tidyr)
 library(dplyr)
+library(stringr)
 
 castaway_details <- survivoR::castaway_details
 castaways <- survivoR::castaways
@@ -58,20 +59,63 @@ Inspiration: https://gradientdescending.com/survivor-data-from-the-tv-series-in-
 
 # Castaways - Exploring Players Stats
 
-Where do players come from?
+### Where do players come from?
 
 ```{r }
-# tm_shape(usmapdata::us_map) +
-#   tm_fill() +
-#   tm_borders()
+
+# states
+states <- castaways %>% 
+  distinct(castaway_id, .keep_all = TRUE) %>% 
+  group_by(state) %>% 
+  transmute(count=n()) %>% 
+  unique() %>% 
+  arrange(desc(count))
+
+# city
+participants_city <- castaways %>% 
+  distinct(castaway_id, .keep_all = TRUE) %>% 
+  group_by(city) %>% 
+  transmute(count=n()) %>% 
+  unique() %>% 
+  arrange(desc(count))
 
 
+# show city on map
 
+cast_locations <- castaways %>% 
+  group_by(city, state) %>%
+  transmute(count=n()) %>% 
+  unique() %>% 
+  arrange(city) 
+
+cast_locations
+
+cities <- us.cities %>% 
+  rename(state = country.etc) %>% 
+  mutate(city=word(name, 1,-2)) %>% 
+  select(city, pop, lat, long, state) %>% 
+  right_join(cast_locations, by=c("city")) %>% 
+  drop_na() %>% 
+  # select(long, lat, city) %>% 
+  rename(lon=long)
+
+cities_t <- usmap_transform(cities)
+
+p <- plot_usmap() +
+  geom_point(data = cities_t, aes(x=x, y=y, label=city, size=count), 
+             color = 'purple', alpha=.25) +
+  labs(title = "Where do Survivor Contestants come from?", size = "Count")
+
+
+ggplotly(p)
 
 ```
 
 
-Who played the most
+### What do survivor player do for a living?
+
+
+### Who played the most
 
 ```{r}
 participations_count <- castaways %>% 
