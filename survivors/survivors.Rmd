@@ -130,7 +130,7 @@ winners <- castaways %>%
 
 # Challenges 
 
-Types of challenges
+### Types of challenges
 
 ```{r }
 within(challenge_description, rm(challenge_id, challenge_name)) %>% 
@@ -138,7 +138,36 @@ within(challenge_description, rm(challenge_id, challenge_name)) %>%
   sapply(round, 3) * 100
 ```
 
+### Challenge Beasts and what they are good at
 
+```{r}
+
+individual_challenges <- challenge_results %>% 
+  filter(outcome_type == 'Individual')
+
+immunity_idols_count <- castaways %>% 
+  select(season_name, full_name, castaway_id, immunity_idols_won, result, season) %>% 
+  arrange(season, desc(immunity_idols_won))
+
+immunity_idols_count
+
+# TODO: count each type of challenge won 
+
+
+
+```
+
+
+### Radar Chart - Evaluating Players skillset with radar chart
+
+We are evaluating player based on:
+1) Social Game: ability to avoid getting voted at at tribal
+2) Challenge Ability: immunity challenges won
+3) 
+
+```{r}
+
+```
 
 
 # Winners - 
@@ -207,6 +236,28 @@ plot_lm(castaways$day, castaways$total_votes_received)
 
 Le nombre de votes n'est pas un bon prédicteur pour déterminer le gagnant
 
+### Final Tribal Results
+
+```{r, echo=FALSE}
+
+season_results <- castaways %>% 
+  select(season_name, full_name, castaway_id,immunity_idols_won, total_votes_received, season) %>% 
+  rename(finalist_id = castaway_id)  
+
+final_tribal_results <- jury_votes %>% 
+  group_by(finalist_id, season_name) %>% 
+  summarise(votes=sum(vote)) %>% 
+  arrange(season_name) %>% 
+  inner_join(season_results, by=c("finalist_id", "season_name")) %>% 
+  arrange(season, desc(votes)) %>% 
+  relocate(c(season_name, full_name))
+  
+final_tribal_results
+
+```
+
+
+
 ### Immunity Idols
 
 ```{r}
@@ -217,6 +268,7 @@ castaways$is_winner = ifelse(castaways$result == 'Sole Survivor', TRUE, FALSE)
 plot(castaways$day, castaways$immunity_idols_won, col = ifelse(castaways$result == 'Sole Survivor', "green", "black"))
 
 ```
+
 # Show Rating - 
 
 Has the show popularity decline/quality? (sort by color)
@@ -234,7 +286,7 @@ ggplotly(p)
 
 ```
 
-IMDB Rating
+### IMDB Rating
 
 ```{r}
 
@@ -243,7 +295,64 @@ IMDB Rating
 # Jury
 
 
+### Voting History
 
+```{r}
+# TODO: add final tribal
+voting_results <- vote_history %>% 
+  distinct(season_name, order, voted_out)
+
+voting_results
+
+
+# individual tribal concil results
+contestants_by_season <- castaways %>% 
+  select(season_name, full_name, castaway_id, season)
+
+tribal_results <- vote_history %>% 
+  group_by(season, day, vote_id) %>% 
+  summarise(votes=n()) %>% 
+  rename(castaway_id = vote_id) %>%
+  inner_join(contestants_by_season, by=c("season", "castaway_id")) %>% 
+  relocate(c("season_name", "castaway_id", "full_name", "day", "votes")) %>% 
+  arrange(season, day, desc(votes))
+
+tribal_results
+
+```
+
+### Who voted correctly
+
+```{r, echo=FALSE}
+# Problem: with voted_correctly creates NA?
+has_voted_correctly <- vote_history %>% 
+  select(season_name, castaway_id, season, vote_id, voted_out_id) %>% 
+  mutate(has_voted_correctly=ifelse(vote_id == voted_out_id, 1, 0)) %>% 
+  select(!c("vote_id", "voted_out_id")) %>%
+  inner_join(contestants_by_season, by=c("season_name", "castaway_id", "season")) %>% 
+  arrange(season, desc(has_voted_correctly)) %>% 
+  group_by(season_name, castaway_id, season, full_name) %>% 
+  transmute(num_votes = n(), voted_correctly = sum(has_voted_correctly))
+
+has_voted_correctly
+
+```
+
+
+## Crazy Voting Outcomes
+
+```{r}
+# Tie
+vote_history %>% 
+  filter((voted_out %in% c('Tie', 'Tie2')))
+  
+
+# Idol plays and nullifiers
+vote_history %>% 
+  # group_by(season, episode, day) %>%
+  filter((nullified==TRUE) | (immunity=='Hidden'))
+
+```
 
 
 
