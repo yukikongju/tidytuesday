@@ -55,6 +55,18 @@ Inspiration: https://gradientdescending.com/survivor-data-from-the-tv-series-in-
 
 # Survivors Location
 
+### Where do season take place?
+
+```{r}
+locations <- season_summary %>% 
+  group_by(country) %>% 
+  transmute(count=n()) %>% 
+  unique()
+
+
+
+locations
+```
 
 
 # Castaways - Exploring Players Stats
