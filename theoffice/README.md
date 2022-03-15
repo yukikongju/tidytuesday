@@ -19,10 +19,9 @@ install.packages("schrute")
 
 **Text Analysis**
 
-- [ ] Character Interaction 
-- [ ] What are each character favorite words
+- [X] What are each character favorite words
+- [X] Character Season Appearances Count
 - [ ] Which character speaks the most
-
-
+- [ ] Character Interaction 
 
 

@@ -47,7 +47,7 @@ ratings <- ratings %>%
 ratings_by_season <- schrute::theoffice %>% 
   select(season, episode_name, imdb_rating) %>% 
   unique() %>% 
-  group_by(season) %>% 
+  group_by(season) %>%
   summarise(season_rating = mean(imdb_rating)) %>% 
   arrange(desc(season_rating))
  
