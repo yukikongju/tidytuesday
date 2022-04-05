@@ -2,6 +2,11 @@
 # install.packages("stopwords")
 libraries("stopwords", "tidyr")
 
+# data wrangling
+office <- schrute::theoffice
+office_episodes <- schrute::theoffice %>% 
+  select(!c("character", "text", "text_w_direction", "index")) %>% 
+  unique()
 ## Name Wrangling
 
 characters_to_remove <- c("Everyone", "Hostess", "Kid", "Actress", "All", "Both",
@@ -61,28 +66,6 @@ get_character_dialogue <- function(name){
   return(dialogue)
 }
 
-get_favorite_words <- function(name, n){
-  # get all the dialogues as list of strings
-  words <- get_character_dialogue(name) %>% 
-    unnest_tokens(word, text)
-  
-  # words_filtered <- remove_stop_words(words)
-  # words_occurences <- count_words_occurence(words_filtered)
-  
-  # remove stop words and punctuation
-  words_filtered <- words %>%
-   filter(!(word %in% stopwords(source = "smart")))
-  
-  # count words occurrence
-  words_occurences <- table(words_filtered$word) %>%
-    as.data.frame() %>%
-    arrange(desc(Freq)) %>%
-    rename(word = Var1) %>%
-    top_n(n)
-  
-  return(words_occurences)
-}
-
 remove_stop_words <- function(words){
   # remove stop words and punctuation
   words_filtered <- words %>% 
@@ -91,7 +74,7 @@ remove_stop_words <- function(words){
   return(words_filtered)
 }
 
-count_words_occurence <- function(words){
+count_words_occurence <- function(words, n){
   # count words occurrence
   words_occurence <- table(words$word) %>% 
     as.data.frame() %>% 
@@ -102,12 +85,71 @@ count_words_occurence <- function(words){
   return(words_occurence)
 }
 
+get_favorite_words <- function(name, n){
+  # get all the dialogues as list of strings
+  words <- get_character_dialogue(name) %>% 
+    unnest_tokens(word, text)
+  
+  words_filtered <- remove_stop_words(words)
+  words_occurences <- count_words_occurence(words_filtered, n)
+  
+  return(words_occurences)
+}
+
+# TODO: fix error
+get_character_favorite_words_in_season <- function(name, season_num, n){
+  words <- get_character_dialogue_by_season(name, season_num) %>% 
+    unnest_tokens(word, text)
+  
+  words_filtered <- remove_stop_words(words)
+  # words_occurences <- count_words_occurence(words_filtered, n)
+
+  # return(words_occurences)
+  return(words_filtered)
+  # return(words)
+}
+
 dwight <- get_character_dialogue("Dwight")
 dwight <- get_favorite_words("Dwight", 100)
+dwight <- get_character_dialogue_by_season("Dwight", 9)
+dwight <- get_character_favorite_words_in_season("Dwight", 10, 100)
 jim <- get_favorite_words("Jim", 100)
 pam <- get_favorite_words("Pam", 100)
 
-# TODO: plot main cast favorite words by season
+# TODO: plot character favorite words by season
+
+# get_character_favorite_words_by_season <- function(name, season_num, n)
+
+
+## get num interventions by episode, season
+
+get_num_interventions_from_character <- function(name){
+  interventions <- office %>% 
+    filter(character == name) %>% 
+    group_by(season, episode) %>% 
+    summarise(interventions = n())
+  return(interventions)
+}
+
+plot_num_interventions_from_character <- function(name){
+  # get data
+  interventions <- get_num_interventions_from_character(name)
+  
+  # plot by season
+  
+  # season_names <- 
+  
+  interventions %>% 
+    ggplot(aes(x = episode, y = interventions)) + 
+      geom_bar(stat = "identity", fill = "darkorchid4", alpha = 0.8) + 
+    # facet_wrap(~"Season {season}", ncol = 3)
+    facet_wrap(~season, ncol = 3)
+    
+  
+}
+
+get_num_interventions_from_character("Jim")
+plot_num_interventions_from_character("Jim")
 
 ## Character Appearances
 
