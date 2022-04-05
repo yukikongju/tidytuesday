@@ -7,6 +7,7 @@ output: html_document
 
 # system('sudo apt install libcairo2-dev')
 # devtools::install_github("hrbrmstr/hrbrthemes")
+# https://dabblingwithdata.wordpress.com/2018/01/02/my-favourite-r-package-for-summarising-data/
 
 library(tmap)
 library(maps)
@@ -23,7 +24,6 @@ library(hrbrthemes)
 library(plotly)
 library(tidyr)
 library(dplyr)
-library(stringr)
 
 castaway_details <- survivoR::castaway_details
 castaways <- survivoR::castaways
@@ -55,84 +55,63 @@ Inspiration: https://gradientdescending.com/survivor-data-from-the-tv-series-in-
 
 # Survivors Location
 
-### Where do season take place?
-
-```{r}
-locations <- season_summary %>% 
-  group_by(country) %>% 
-  transmute(count=n()) %>% 
-  unique()
-
-
-
-locations
-```
 
 
 # Castaways - Exploring Players Stats
 
-### Where do players come from?
+Where do players come from?
 
 ```{r }
-
-# states
-states <- castaways %>% 
-  distinct(castaway_id, .keep_all = TRUE) %>% 
-  group_by(state) %>% 
-  transmute(count=n()) %>% 
-  unique() %>% 
-  arrange(desc(count))
-
-# city
-participants_city <- castaways %>% 
-  distinct(castaway_id, .keep_all = TRUE) %>% 
-  group_by(city) %>% 
-  transmute(count=n()) %>% 
-  unique() %>% 
-  arrange(desc(count))
+# tm_shape(usmapdata::us_map) +
+#   tm_fill() +
+#   tm_borders()
 
 
-# show city on map
 
-cast_locations <- castaways %>% 
-  group_by(city, state) %>%
-  transmute(count=n()) %>% 
-  unique() %>% 
-  arrange(city) 
-
-cast_locations
-
-cities <- us.cities %>% 
-  rename(state = country.etc) %>% 
-  mutate(city=word(name, 1,-2)) %>% 
-  select(city, pop, lat, long, state) %>% 
-  right_join(cast_locations, by=c("city")) %>% 
-  drop_na() %>% 
-  # select(long, lat, city) %>% 
-  rename(lon=long)
-
-cities_t <- usmap_transform(cities)
-
-p <- plot_usmap() +
-  geom_point(data = cities_t, aes(x=x, y=y, label=city, size=count), 
-             color = 'purple', alpha=.25) +
-  labs(title = "Where do Survivor Contestants come from?", size = "Count")
-
-
-ggplotly(p)
 
 ```
 
+Players occupations/jobs
 
-### What do survivor player do for a living?
+```{r}
+castaway_details%>% 
+  distinct(castaway_id, occupation) %>% 
+  group_by(occupation) %>% 
+  transmute(n = n()) %>% 
+  arrange(desc(n)) %>% 
+  unique()
+
+# get players by occupation
+
+get_players_by_occupation <- function(query){
+  players <- castaway_details %>% 
+    filter(grepl(query, occupation)) %>% 
+    select(c(castaway_id, full_name, occupation))
+  return(players)
+}
+
+get_players_by_occupation('Student')
+get_players_by_occupation('Bartender')
+get_players_by_occupation('Trainer')
+get_players_by_occupation('Sales')
+get_players_by_occupation('Officer')
+get_players_by_occupation('Model')
+get_players_by_occupation('Teacher')
+get_players_by_occupation('Manager')
+get_players_by_occupation('Waiter|Waitress')
+get_players_by_occupation('Engineer')
 
 
-### Who played the most
+```
+
+Who played the most
 
 ```{r}
 participations_count <- castaways %>% 
-  group_by(castaway_id, full_name) %>%
-  summarise(num_participations=n()) %>% 
+  group_by(castaway_id) %>%
+  mutate(num_participations=n()) %>% 
+  select(c(castaway_id, full_name, num_participations)) %>% 
+  unique() %>% 
   arrange(desc(num_participations))
 ```
 
@@ -175,6 +154,8 @@ memorable_players <- players %>%
 winners <- castaways %>% 
   filter(result == 'Sole Survivor')
 
+# winners who played one time
+
 
 # goats <- players %>% 
 #   filter((has_made_jury==TRUE) & (num_participations > 2)) 
@@ -186,7 +167,7 @@ winners <- castaways %>%
 
 # Challenges 
 
-### Types of challenges
+Types of challenges
 
 ```{r }
 within(challenge_description, rm(challenge_id, challenge_name)) %>% 
@@ -194,37 +175,7 @@ within(challenge_description, rm(challenge_id, challenge_name)) %>%
   sapply(round, 3) * 100
 ```
 
-### Challenge Beasts and what they are good at
 
-```{r}
-
-individual_challenges <- challenge_results %>% 
-  filter(outcome_type == 'Individual')
-
-immunity_idols_count <- castaways %>% 
-  select(season_name, full_name, castaway_id, immunity_idols_won, result, season) %>% 
-  arrange(season, desc(immunity_idols_won))
-
-immunity_idols_count
-
-# TODO: count each type of challenge won 
-
-
-
-```
-
-
-### Radar Chart - Evaluating Players skillset with radar chart
-
-
-We are evaluating player based on:
-1) Social Game: ability to avoid getting voted at at tribal
-2) Challenge Ability: immunity challenges won
-3) 
-
-```{r}
-# TODO
-```
 
 
 # Winners - 
@@ -236,13 +187,13 @@ We are evaluating player based on:
 
 num_confessionals <- confessionals %>% 
   semi_join(castaways, by ="castaway_id") %>% 
-  group_by(season_name, castaway, castaway_id) %>% 
+  group_by(season_name, season, castaway, castaway_id) %>% 
   summarise(Confessional_Count=sum(confessional_count)) %>% 
-  arrange(desc(Confessional_Count))
+  arrange(season, desc(Confessional_Count))
 
 confessions <- num_confessionals %>% 
-  inner_join(castaways, by=c("castaway_id", "season_name", "castaway")) %>% 
-  select(c("season_name",  "full_name", "Confessional_Count", "result", "personality_type", "total_votes_received", "immunity_idols_won", "castaway_id", "season")) %>% 
+  inner_join(castaways, by=c("castaway_id", "season_name", "season")) %>% 
+  select(c("season", "season_name",  "full_name", "castaway_id", "Confessional_Count", "result", "personality_type", "total_votes_received", "immunity_idols_won")) %>% 
   arrange(season, desc(Confessional_Count)) 
 
 # TODO: add ranking
@@ -259,6 +210,7 @@ Il y a 16 types de personnalités. On s'attend à ce que le nombre de personnes 
 
 ```{r , echo=FALSE}
 
+
 personality_count <- castaways %>% group_by(personality_type) %>% summarise(count= n()) 
 personality_count$perc <- personality_count$count / nrow(castaways) * 100 
 
@@ -274,26 +226,6 @@ introvert_count(castaways)
 
 ```
 
-### Finding out all the contestants with ___ personality type
-
-```{r, echo=FALSE}
-personality_sort <- function(type){
-  players <- castaways %>% 
-  filter(personality_type == type) %>% 
-  distinct(full_name, .keep_all = TRUE) %>%
-  select(-c("city", "state", "episode", "day", "order", "jury_status", "original_tribe", "swapped_tribe", "swapped_tribe_2", "merged_tribe"))
-  return(players)
-}
-
-# remove NA from vector
-personality_types <- unique(castaways$personality_type) 
-personality_types <- personality_types[!is.na(personality_types)]
-
-# storing players by personality types
-for(type in personality_types){
-  assign(type, personality_sort(type)) # ISTP <- personality_sort('ISTP')
-}
-```
 
 ### Winners votes out 
 
@@ -312,28 +244,6 @@ plot_lm(castaways$day, castaways$total_votes_received)
 
 Le nombre de votes n'est pas un bon prédicteur pour déterminer le gagnant
 
-### Final Tribal Results
-
-```{r, echo=FALSE}
-
-season_results <- castaways %>% 
-  select(season_name, full_name, castaway_id,immunity_idols_won, total_votes_received, season) %>% 
-  rename(finalist_id = castaway_id)  
-
-final_tribal_results <- jury_votes %>% 
-  group_by(finalist_id, season_name) %>% 
-  summarise(votes=sum(vote)) %>% 
-  arrange(season_name) %>% 
-  inner_join(season_results, by=c("finalist_id", "season_name")) %>% 
-  arrange(season, desc(votes)) %>% 
-  relocate(c(season_name, full_name))
-  
-final_tribal_results
-
-```
-
-
-
 ### Immunity Idols
 
 ```{r}
@@ -344,7 +254,6 @@ castaways$is_winner = ifelse(castaways$result == 'Sole Survivor', TRUE, FALSE)
 plot(castaways$day, castaways$immunity_idols_won, col = ifelse(castaways$result == 'Sole Survivor', "green", "black"))
 
 ```
-
 # Show Rating - 
 
 Has the show popularity decline/quality? (sort by color)
@@ -370,63 +279,40 @@ ggplotly(p)
 
 # Jury
 
+### How many votes did the final 3 get?
+
+```{r}
+
+jury_votes %>% 
+  select(-c(castaway, castaway_id)) %>% 
+  group_by(season, finalist) %>% 
+  mutate(votes = sum(vote)) %>% 
+  select(-c(vote)) %>% 
+  unique() %>% 
+  arrange(season, desc(votes))
+  
+
+```
+
+
 
 ### Voting History
 
 ```{r}
-# TODO: add final tribal
-voting_results <- vote_history %>% 
+ranking <- vote_history %>% 
   distinct(season_name, order, voted_out)
 
-voting_results
 
-
-# individual tribal concil results
-contestants_by_season <- castaways %>% 
-  select(season_name, full_name, castaway_id, season)
-
-tribal_results <- vote_history %>% 
-  group_by(season, day, vote_id) %>% 
-  summarise(votes=n()) %>% 
-  rename(castaway_id = vote_id) %>%
-  inner_join(contestants_by_season, by=c("season", "castaway_id")) %>% 
-  relocate(c("season_name", "castaway_id", "full_name", "day", "votes")) %>% 
-  arrange(season, day, desc(votes))
-
-tribal_results
-
+ranking
 ```
-
-### Who voted correctly
-
-```{r, echo=FALSE}
-# Problem: with voted_correctly creates NA?
-has_voted_correctly <- vote_history %>% 
-  select(season_name, castaway_id, season, vote_id, voted_out_id) %>% 
-  mutate(has_voted_correctly=ifelse(vote_id == voted_out_id, 1, 0)) %>% 
-  select(!c("vote_id", "voted_out_id")) %>%
-  inner_join(contestants_by_season, by=c("season_name", "castaway_id", "season")) %>% 
-  arrange(season, desc(has_voted_correctly)) %>% 
-  group_by(season_name, castaway_id, season, full_name) %>% 
-  transmute(num_votes = n(), voted_correctly = sum(has_voted_correctly))
-
-has_voted_correctly
-
-```
-
 
 ## Crazy Voting Outcomes
 
 ```{r}
 # Tie
-vote_history %>% 
-  filter((voted_out %in% c('Tie', 'Tie2')))
-  
 
-# Idol plays and nullifiers
-vote_history %>% 
-  # group_by(season, episode, day) %>%
-  filter((nullified==TRUE) | (immunity=='Hidden'))
+
+# Idol nullfiers
 
 ```
 
