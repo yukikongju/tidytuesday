@@ -1,0 +1,22 @@
+data:
+  data_directory: ../data
+  data_file: heart.csv
+
+model:
+  model_name: kneighbors.pkl
+  model_directory: ../models
+  test_size: 0.3
+  target: output
+  n_neighbors: 5
+  weights: uniform
+  metric: minkowski
+  random_state: 420
+
+metric:
+  name: accuracy
+
+optimizer:
+  name: SGD
+  learning_rate: 0.001
+  weight_decay: 1e-5
+
