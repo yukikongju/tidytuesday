@@ -10,7 +10,7 @@ class SklearnModel(ABC):
     def get_model(self):
         pass
 
-    def get_metric(self):
+    def get_metric_score(self):
         pass
         
 

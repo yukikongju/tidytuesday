@@ -1,6 +1,8 @@
-from model import SklearnModel
-
 import sys
+
+from model import SklearnModel
+from sklearn.metrics import accuracy_score
+
 
 class ClassifierModel(SklearnModel):
 
@@ -28,6 +30,7 @@ class ClassifierModel(SklearnModel):
             exit program because classifier hasn't been defined
 
         """
+        #  TODO: fix error: model not suscriptable
         model_class = config['model']['class']
 
         # check if model is a classifier 
@@ -55,35 +58,41 @@ class ClassifierModel(SklearnModel):
             raise NotImplementedError("This classifier hasn't been implemented yet")
             sys.exit(1)
 
-    def get_predictions(self):
-        pass
-        
-
-    def get_metric(self):
+    def get_metric_score(self, y_pred, y_true):
         """ 
         Get metric from config file
 
+        Parameters
+        ----------
+        y_pred: list
+            values predicted by classifier
+        y_true: list
+            true values
+
         Returns
         -------
-        metric: sklearn metrics
+        metric score:
             
         Raises
         ------
         ValueError
             exit program if metric_name is not a classifier metric
         NotImplementedError
+            exit program because the metric wasn't implemented 
         """
         # check if the metric defined is a classifier metric
         metric_name = self.config['metric']['name']
         if metric_name not in ['accuracy_score']:
-            raise ValueError("The metric defined in the config file is not a classifier metric. Please check!")
+            raise ValueError("The metric defined in the config file is not a classifier metric. \
+                    Should be one of the following: 'accuracy_score'. Please check!")
             sys.exit(1)
 
-        # get metric
+        # get metric score
         if metric_name == 'accuracy_score':
-            return 
-
-
+            return accuracy_score(y_true, y_pred)
+        else:
+            raise NotImplementedError("The metric hasn't been implemented yet.")
+            sys.exit(1)
 
 
         

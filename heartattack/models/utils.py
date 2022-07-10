@@ -3,19 +3,49 @@ import os
 import sys
 import logging
 import joblib
+import argparse
+import pandas as pd
 
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
 
 
-def load_config(config_file_path):
+def get_config_path(args):
+    """ 
+    Get config file name from arguments
+
+    Parameters
+    ----------
+    args: parser arguments
+
+
+    Returns
+    -------
+    config_path: string
+        path to the config file
+
+    Raises
+    ------
+    ArgumentError
+        exit if the number of argument passed is not 1
+
     """
-    Load config file
+    # check if argument have been passed
+    if len(vars(args)) != 1:
+        raise argparse.ArgumentError("The only argument that need to be passed is the config file path")
+        sys.exit(1)
+
+    # get config_file_path
+    return args.config_file
+
+
+def load_check_config(config_file_path):
+    """ 
+    Load and check if config file path is valid and defines all required parameters
 
     Parameters
     ----------
     config_file_path: string
-        path to config file (ex: "../config/tmp.cfg") [should be yaml]
+        configuration read from the config file
 
     Returns
     -------
@@ -26,40 +56,18 @@ def load_config(config_file_path):
     ------
     FileNotFoundError
         exit program if config_file_path doesn't exist
-
-    Examples
-    --------
-
-    """
-    try:
-        config_name = sys.argv[1]
-        with open(config_file_path) as f:
-            config = yaml.safe_load(f)
-        return config
-    except FileNotFoundError as e:
-        logging.error(f"File not found: {e}")
-        sys.exit(1)
-
-def check_config(config):
-    """ 
-    Verify if config file is well defined 
-
-    Parameters
-    ----------
-    config: dict
-        configuration read from the config file
-
-    Returns
-    -------
-    flag: bool
-        True if config file is well defined. Else false
-
-    Raises
-    ------
     KeyError 
         return false if required parameters missing from config file
 
     """
+    # load file
+    try:
+        with open(config_file_path) as f:
+            config = yaml.safe_load(f)
+    except FileNotFoundError as e:
+        logging.error(f"File not found: {e}")
+        sys.exit(1)
+
     # check main components: data, model, metric (optimizer is optional)
     try:
         data = config['data']
@@ -67,7 +75,7 @@ def check_config(config):
         metric = config['metric']
     except KeyError as e:
         logging.error(f"'data', 'model' and 'metric' needs to be defined in config file: {e}")
-        return False
+        sys.exit(1)
 
     # check data: data_directory, data_file
     try: 
@@ -75,7 +83,7 @@ def check_config(config):
         data_file = data['data_file']
     except KeyError as e:
         logging.error(f"data_directory and data_file should be defined under 'data': {e}")
-        return False
+        sys.exit(1)
 
     # check model: class, type, pickle_file, pickle_dir
     try: 
@@ -85,21 +93,20 @@ def check_config(config):
         pickle_dir = model['pickle_dir']
     except KeyError as e:
         logging.error(f"type, data_file and data_directory should be defined under 'model': {e}")
-        return False
+        sys.exit(1)
 
 
     # check metric: name, lr 
     # TODO: check if metric name is valid based on model_type
     try: 
-         metric_name = metric['type']
-         lr = metric['lr']
+         metric_name = metric['name']
     except KeyError as e:
-        logging.error(f"name and lr should be defined under 'metric': {e}")
-        return False
+        logging.error(f"name should be defined under 'metric': {e}")
+        sys.exit(1)
 
     # TODO: check optimizer if exists (optional)
 
-    return True
+    return config
     
 
 def get_train_test_features_target(config):
@@ -121,10 +128,37 @@ def get_train_test_features_target(config):
     y_train: pandas.DataFrame
     y_test: pandas.DataFrame
 
-    """
-    df = pd.read_csv(os.path.join(config['data']['data_directory'], 
-        config['data']['data_file']))
+    Raises
+    ------
+    ValueError
+        exit if file path is not csv file
+    FileNotFoundError
+        exit if csv file is not found
 
+    """
+    data_dir = config['data']['data_directory']
+    data_file = config['data']['data_file']
+
+    data_path = os.path.join(data_dir, data_file)
+
+    # check if file is csv file
+    if not data_file.endswith(".csv"):
+        raise ValueError("data_file should be a csv file. Please check!")
+        sys.exit(1)
+
+    # check if path exists
+    if not os.path.exists(data_path):
+        raise FileNotFoundError("The csv file wasn't found")
+        sys.exit(1)
+
+    # loading the file
+    try:
+        df = pd.read_csv(data_path)
+    except:
+        logging.error("An error occured when loading the file")
+        sys.exit(1)
+
+    # splitting data to features and target 
     X = df.drop(config['model']['target'], axis=1)
     y = df[config['model']['target']]
 
