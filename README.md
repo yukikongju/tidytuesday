@@ -41,6 +41,7 @@ and various other sources. Below is linked the source for all data
 - Starbucks: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-12-21/starbucks.csv
 - Spiders: https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-12-07
 - Brain Injury: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-24/readme.md
+- MBIT: https://www.kaggle.com/datasets/datasnaek/mbti-type
 
 
 ## More Datasets

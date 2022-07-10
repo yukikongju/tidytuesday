@@ -9,7 +9,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 
-# Executing the script: python3 % kneighbors.yaml
+# Executing the script: python3 % kneighbors.cfg
 
 
 ### 1. Load Config file
