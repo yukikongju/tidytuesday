@@ -112,7 +112,7 @@ participations_count <- castaways %>%
   mutate(num_participations=n()) %>% 
   select(c(castaway_id, full_name, num_participations)) %>% 
   unique() %>% 
-  arrange(desc(num_participations))
+  arrange(desc(num_participations), castaway_id)
 ```
 
 ### Memorable players - Played at least two seasons or made the jury
@@ -153,6 +153,14 @@ memorable_players <- players %>%
 
 winners <- castaways %>% 
   filter(result == 'Sole Survivor')
+
+get_winners <- function() {
+   tmp <- castaways %>% 
+    filter(result == c("Sole Survivor", "Runner-up"))
+   return(tmp)
+}
+
+winners_runnerups <- get_winners()
 
 # winners who played one time
 
@@ -224,8 +232,37 @@ introvert_count <- function(df) {
 introvert_count(winners)
 introvert_count(castaways)
 
+# personality count
+castaways %>% 
+  group_by(personality_type) %>% 
+  summarise(Freq = n()) %>% 
+  arrange(desc(Freq))
+
 ```
 
+### Sort by personality_type
+
+```{r, echo=False}
+
+personality_types <- c("ENTP", "INTP", "ESTP", "ISTP", "ESFP", "ISFP", 
+  "ESFJ", "ISFJ", "ESFP", "ISFP", "ENTJ", "INTJ", "ENFJ", "INFJ", "ENFP", "INFP")
+
+get_players_by_MBIT <- function(type) {
+  tmp <- castaways %>% 
+    filter(personality_type == type)
+  return(tmp)
+}
+
+get_players_by_MBIT("ISTP")
+
+```
+
+### Which personality type is more likely to make alliances/work together
+
+```{r, echo=False}
+
+
+```
 
 ### Winners votes out 
 

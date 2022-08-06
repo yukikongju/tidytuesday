@@ -5,6 +5,7 @@ install.packages("maptools")
 install.packages("rgdal") 
 
 library(plotly)
+library(dplyr)
 
 # storing data into variables
 castaway_details <- survivoR::castaway_details
@@ -22,3 +23,20 @@ tribe_mapping <- survivoR::tribe_mapping
 viewers <- survivoR::viewers
 vote_history <- survivoR::vote_history
 
+
+castaways %>% 
+  filter(castaway == c("Victoria", "Michelle", "Michaela"))
+
+castaways %>% 
+  filter(season == 4) %>% 
+  arrange(desc(day)) %>% 
+  select(c(season_name, full_name, day, result)) 
+
+tmp <- castaways %>% 
+  select(c(season_name, full_name, day, result)) %>% 
+  print(n=800)
+
+tmp <- castaway_details %>% 
+  select(c(full_name, occupation, personality_type))
+
+  
