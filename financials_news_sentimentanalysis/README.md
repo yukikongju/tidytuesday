@@ -4,7 +4,7 @@
 **Embedding**
 
 - [X] TextNormalization + OneHotVectorization
-- [ ] NGrams Vectorizer
+- [X] NGrams Vectorizer
 - [ ] [Gensim Word2Vec]
 
 
