@@ -3,14 +3,17 @@
 
 **Embedding**
 
+- [X] TextNormalization + OneHotVectorization
+- [ ] NGrams Vectorizer
 - [ ] [Gensim Word2Vec]
 
 
 **Models to test**
 
-- [ ] Baseline
-    - [ ] Vader
-    - [ ] Naive Bayes
+- [X] Baseline
+    - [X] Naive Bayes
+    - [X] XGBoost
+    - [X] Decision Tree Classifier
 - [ ] Classic Deep Learning Models
     - [ ] Sequential, CNN, RNN, LSTM, GRU
 - [ ] Transformers
@@ -30,4 +33,6 @@
 - [ ] [Kaggle FinancialPhraseBank Dataset](https://www.kaggle.com/datasets/ankurzing/sentiment-analysis-for-financial-news)
 - [ ] [Kaggle Financial Tweets](https://www.kaggle.com/datasets/vivekrathi055/sentiment-analysis-on-financial-tweets)
 
+**Notebooks**
 
+- [ ] [Mastering Sentiment Analysis](https://www.kaggle.com/code/magedmahmoud/mastering-sentiment-analysis)
