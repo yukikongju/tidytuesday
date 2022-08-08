@@ -5,15 +5,19 @@
 
 - [X] TextNormalization + OneHotVectorization
 - [X] NGrams Vectorizer
-- [ ] [Gensim Word2Vec]
+- [ ] Word Embedding: Gensim.models
+    - [ ] Word2Vec
+    - [ ] FastText
 
 
 **Models to test**
 
-- [X] Baseline
-    - [X] Naive Bayes
+- [o] Baseline
     - [X] XGBoost
+    - [X] Naive Bayes
     - [X] Decision Tree Classifier
+    - [ ] Logistic Regression
+    - [ ] SGD Classifier
 - [ ] Classic Deep Learning Models
     - [ ] Sequential, CNN, RNN, LSTM, GRU
 - [ ] Transformers
@@ -26,6 +30,7 @@
 **Embedding**
 
 - [X] [Word2Vec with TSNE](https://medium.com/swlh/word-embedding-word2vec-with-genism-nltk-and-t-sne-visualization-43eae8ab3e2e)
+- [ ] [Word2Vec TextClassification](https://ethen8181.github.io/machine-learning/keras/text_classification/word2vec_text_classification.html)
 
 **Datasets**
 
@@ -36,3 +41,7 @@
 **Notebooks**
 
 - [ ] [Mastering Sentiment Analysis](https://www.kaggle.com/code/magedmahmoud/mastering-sentiment-analysis)
+- [ ] [Text Classification with NLP features engineering](https://towardsdatascience.com/text-classification-with-nlp-tf-idf-vs-word2vec-vs-bert-41ff868d1794)
+
+
+
