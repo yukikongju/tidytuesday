@@ -1,13 +1,22 @@
 # Sentiment Analysis for Financial News
 
+**Data Augmentation**
+
+- [ ] Synonym Replacement
+- [ ] RD: Random Deletion
+- [ ] RS: Random Swap
+- [ ] RI: Random Insertion
+
 
 **Embedding**
 
+- [ ] Topic Modelling
 - [X] TextNormalization + OneHotVectorization
 - [X] NGrams Vectorizer
 - [ ] Word Embedding: Gensim.models
     - [ ] Word2Vec
     - [ ] FastText
+    - [ ] GloVe
 
 
 **Models to test**
@@ -26,6 +35,11 @@
 
 
 ## Ressources
+
+**Data Augmentation**
+
+- [ ] [Data Augmentation in NLP](https://maelfabien.github.io/machinelearning/NLP_8/#)
+
 
 **Embedding**
 
