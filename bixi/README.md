@@ -4,9 +4,13 @@
 
 ## ToDos
 
-- [ ] Download deplacement and stations data
-- [ ] Draw Montreal Map using [geopandas](https://towardsdatascience.com/geopandas-101-plot-any-data-with-a-latitude-and-longitude-on-a-map-98e01944b972)
+- [X] Download deplacement and stations data
+- [X] Draw Montreal Map using [geopandas](https://towardsdatascience.com/geopandas-101-plot-any-data-with-a-latitude-and-longitude-on-a-map-98e01944b972)
 - [ ] Cross-reference all start and end stations
+
+
+- [ ] WHY 2022 emplacement start with 1000?
+
 
 ## Questions
 
