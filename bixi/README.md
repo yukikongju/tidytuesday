@@ -24,7 +24,9 @@ Les données utilisées peuvent être trouvées [ici](https://bixi.com/fr/donnee
 
 ## Questions
 
-- [ ] station usage by year: projection for next 5 years
+- [o] station usage by year
+    - [X] longitudinal study: what happened previously
+    - [ ] projection for next 5 years
 - [ ] Most popular stations
 - [ ] which station is the most empty?
 - [ ] where do people park their bike (start -> end)

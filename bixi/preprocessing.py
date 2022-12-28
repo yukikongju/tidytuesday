@@ -203,7 +203,11 @@ def test_download_usage_by_month(deplacement_dir, usage_dir):
             dfs = download_usage_by_month(csv_path)
             for df in tqdm(dfs): 
                 year, month, _ = str(pd.to_datetime(str(df['date'].iloc[-1])).date()).split('-')
-                station_code = str(df['start_station_code'].iloc[-1])
+                try: 
+                    station_code = int(df['start_station_code'].iloc[-1])
+                except: 
+                    station_code = str(df['start_station_code'].iloc[-1])
+
                 new_subdir = os.path.join(usage_dir, year, month)
                 if not os.path.exists(new_subdir):
                     os.makedirs(new_subdir)
@@ -251,6 +255,7 @@ def main():
     #  print(pd.to_datetime('2020-04-15 06:00:04').date())
     test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/monthly_usage/')
     #  test_get_daily_capacity('bixi/data/deplacements/', 'bixi/data/capacity_raw/')
+    pass
     
 
 if __name__ == "__main__":
