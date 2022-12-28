@@ -73,6 +73,7 @@ def split_csv_monthly(csv_path, new_csv_dir): # TODO
     """
     # 0. reformat station code
     df = pd.read_csv(csv_path)
+    #  df = df.sort(by=['start_date']) # CHECK
     df_stations = pd.read_csv(STATIONS_CSV)
     stations_dict = dict(zip(df_stations.station_id, df_stations.short_name))
     if 'emplacement_pk_start' in df.columns:
@@ -103,6 +104,33 @@ def split_csv_monthly(csv_path, new_csv_dir): # TODO
         df.to_csv(new_csv_path, index=False)
 
     
+def download_usage_by_month(csv_file):
+    """ 
+    groupby start_station_code
+
+    Columns: 
+        - month, year
+        - station
+        - count: is_user, not_user, total_users
+    """
+    df = pd.read_csv(csv_file)
+    df['date'] = pd.to_datetime(df['start_date'])
+    if 'is_member' in df.columns:
+        df = df[['date', 'start_station_code', 'is_member']].groupby([
+                pd.Grouper(key='date', freq='M'), 
+                pd.Grouper('start_station_code'), 
+                #  pd.Grouper('is_member')
+            ]).agg(['count', 'sum']).droplevel(axis=1, level=0).reset_index()
+        df['non_member_count'] = df['count'] - df['sum']
+        df = df.rename(columns={'count': 'total_count', 'sum': 'member_count', })
+    else: 
+        df = df[['date', 'start_station_code', 'rental_id']].groupby([
+                pd.Grouper(key='date', freq='M'), 
+                pd.Grouper('start_station_code'), 
+            ]).agg(['count']).droplevel(axis=1, level=0).reset_index()
+        df = df.rename(columns={'count': 'total_count'})
+    return df
+
 
 #  -----------------------------------------------------------------------
 
@@ -110,15 +138,32 @@ def split_csv_monthly(csv_path, new_csv_dir): # TODO
 def test_split_csv_monthly():
     #  split_csv_monthly('bixi/data/deplacements_raw/2020/OD_2020.csv', 'bixi/data/deplacements/')
     split_csv_monthly('bixi/data/deplacements_raw/2021/2021_donnees_ouvertes.csv', 'bixi/data/deplacements/')
-    
+
+
+def test_download_usage_by_month(deplacement_dir, usage_dir):
+    #  download_usage_by_month('bixi/data/deplacements/2018/OD_2018-05.csv')
+
+    for subdir, dirs, files in os.walk(deplacement_dir):
+        year = subdir.split('/')[-1]
+        if not os.path.exists(os.path.join(usage_dir, year)):
+            os.makedirs(os.path.join(usage_dir, year))
+        for file in files: 
+            csv_path = os.path.join(subdir, file)
+            print(csv_path)
+            df = download_usage_by_month(csv_path)
+            year, month, _ = str(pd.to_datetime(str(df['date'][0])).date()).split('-')
+            new_csv_path = os.path.join(usage_dir, year, f'usage_{year}-{month}.csv')
+            df.to_csv(new_csv_path, index=False)
+
 
 #  -----------------------------------------------------------------------
 
 def main():
     #  download_stations_dataframe('bixi/data/stations.csv')
-    standardize_deplacements_data('bixi/data/deplacements_raw', 'bixi/data/deplacements')
+    #  standardize_deplacements_data('bixi/data/deplacements_raw', 'bixi/data/deplacements')
     #  test_split_csv_monthly()
     #  print(pd.to_datetime('2020-04-15 06:00:04').date())
+    test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/usages/')
     
 
 if __name__ == "__main__":
