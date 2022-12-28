@@ -49,6 +49,9 @@ and various other sources. Below is linked the source for all data
 - Roman Emperrors: https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-08-13
 - CRAN Datasets: https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-11-12
 - Moore Law: https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-09-03
+- [Fifa 2021 Complete Player Dataset](https://www.kaggle.com/datasets/aayushmishra1512/fifa-2021-complete-player-data)
+- [CS:GO Competitive Matchmaking Data](https://www.kaggle.com/datasets/skihikingkevin/csgo-matchmaking-damage?select=esea_meta_demos.part1.csv)
+- [Bixi Montreal](https://bixi.com/en/open-data)
 
 
 ## Ressources
@@ -58,4 +61,12 @@ and various other sources. Below is linked the source for all data
 - [Geocomputation in R](https://geocompr.robinlovelace.net/adv-map.html)
 - [Supervised ML for Text Analysis in R](https://smltar.com/)
 - [R Cookbook 2nd Edition](https://rc2e.com/)
+- [Open Data Toronto](https://open.toronto.ca/#84045f23-7465-0892-8889-7b6f91049b29)
+- [World Pop - Open spatial demographic data and research](https://hub.worldpop.org/)
+- [World Inequality Database](https://wid.world/)
+- [World Bank - Data Bank](https://databank.worldbank.org/home.aspx)
+- [Open Sanctions - Dataset on crimes](https://www.opensanctions.org/)
+- [Allen Barin Datasets - Neuroscience](https://portal.brain-map.org/)
+- [Human Connectome Database](https://db.humanconnectome.org/app/template/Login.vm)
+- [Study Forrest - Brain](https://www.studyforrest.org/)
 
