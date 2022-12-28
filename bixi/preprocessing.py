@@ -131,6 +131,48 @@ def download_usage_by_month(csv_file):
         df = df.rename(columns={'count': 'total_count'})
     return df
 
+def compute_station_daily_capacity_raw(deplacement_csv_path):
+    """ 
+    Given monthly deplacement, compute station capacity per 5 minutes
+
+    Returns
+    -------
+    dfs: list of dataframes
+        station daily capacity every 5 minutes
+
+    """
+    # 1. 
+    df = pd.read_csv(deplacement_csv_path)
+    print(df.head())
+
+    # 2. concatenate
+    df_start = df[['start_date', 'start_station_code']]
+    df_start['status'] = 'START'
+    df_start = df_start.rename(columns={'start_date': 'timestamp', 'start_station_code': 'station_code'})
+    df_end = df[['end_date', 'end_station_code']]
+    df_end['status'] = 'END'
+    df_end = df_end.rename(columns={'end_date': 'timestamp', 'end_station_code': 'station_code'})
+    df_concat = pd.concat([df_start, df_end]).reset_index()
+    df_concat['timestamp'] = pd.to_datetime(df_concat['timestamp'])
+    df_concat = df_concat.pivot_table(index=['timestamp', 'station_code'], columns='status', aggfunc='count').droplevel(axis=1, level=0).reset_index()
+    #  print(df_concat.head())
+
+    # 3. count number of bixis that comes and go every 5 minutes
+    df_concat = df_concat.groupby([
+            pd.Grouper(key='timestamp', freq='5min'),
+            pd.Grouper('station_code'),
+        ]).agg(['count']).droplevel(axis=1, level=1).reset_index()
+
+    # 4. split dataset into timestamp and station_code (one csv file per station code per day)
+    g = df_concat.groupby([
+            pd.Grouper(key='timestamp', freq='D'),
+            pd.Grouper('station_code')
+        ], as_index=False)
+    dfs = [group.reset_index() for _, group in g]
+    #  print(dfs[0])
+
+    return dfs
+
 
 #  -----------------------------------------------------------------------
 
@@ -156,6 +198,37 @@ def test_download_usage_by_month(deplacement_dir, usage_dir):
             df.to_csv(new_csv_path, index=False)
 
 
+def test_get_daily_capacity(deplacement_dir, capacity_raw_dir):
+    #  dfs = compute_station_daily_capacity_raw('bixi/data/deplacements/2017/OD_2017-06.csv')
+
+    for subdir, dirs, files in os.walk(deplacement_dir):
+        year = subdir.split('/')[-1]
+        if year == '2022': # FIXME: 2022 station don't always have end station
+            continue
+        if not os.path.exists(os.path.join(capacity_raw_dir, year)):
+            os.makedirs(os.path.join(capacity_raw_dir, year))
+        for file in files: 
+            csv_path = os.path.join(subdir, file)
+            print(csv_path)
+            dfs = compute_station_daily_capacity_raw(csv_path)
+            for df in dfs:
+                # get year, month, day, station_code
+                year, month, day = str(pd.to_datetime(str(df['timestamp'][0])).date()).split('-')
+                # check station code is valid
+                try:
+                    station_code = int(df['station_code'][0])
+                except: 
+                    continue
+
+                # save csv
+                capacity_subdir = os.path.join(capacity_raw_dir, year, month, day)
+                if not os.path.exists(capacity_subdir):
+                    os.makedirs(capacity_subdir)
+                new_capacity_path = os.path.join(capacity_subdir, f'{year}_{month}_{day}_station_{station_code}.csv')
+                df.to_csv(new_capacity_path, index=False)
+
+    
+
 #  -----------------------------------------------------------------------
 
 def main():
@@ -163,7 +236,8 @@ def main():
     #  standardize_deplacements_data('bixi/data/deplacements_raw', 'bixi/data/deplacements')
     #  test_split_csv_monthly()
     #  print(pd.to_datetime('2020-04-15 06:00:04').date())
-    test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/usages/')
+    #  test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/usages/')
+    test_get_daily_capacity('bixi/data/deplacements/', 'bixi/data/capacity_raw/')
     
 
 if __name__ == "__main__":
