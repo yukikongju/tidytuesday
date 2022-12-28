@@ -12,7 +12,10 @@
 
 - [ ] Most popular stations
 - [ ] which station is the most empty?
-
+- [ ] station usage by year: projection for next 5 years
+- [ ] which station capacity should be increased? by how many?
+    - [ ] how much time does a station spend without bike
+    - [ ] 
 
 
 ## Ressources
