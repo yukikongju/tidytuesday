@@ -1,11 +1,11 @@
-# Bixi - Historique de déplacements et achats
+# Bixi - Historique de déplacements et emprunts de tous les utilisateurs de Montreal
 
 [link](https://bixi.com/fr/donnees-ouvertes)
 
 ## ToDos
 
 - [X] Download deplacement and stations data
-- [X] Draw Montreal Map using [geopandas](https://towardsdatascience.com/geopandas-101-plot-any-data-with-a-latitude-and-longitude-on-a-map-98e01944b972)
+- [X] Draw Montreal Map using [geopandas](https://towardsdatascience.com/geopandas-101-plot-any-data-with-a-latitude-and-longitude-on-a-map-98e01944b972) (see `notebooks/explore stations.ipynb`)
 - [ ] Cross-reference all start and end stations
 
 
