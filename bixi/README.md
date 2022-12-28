@@ -13,12 +13,13 @@ Les données utilisées peuvent être trouvées [ici](https://bixi.com/fr/donnee
 - [X] Generate monthly usage count datasets
 - [o] Generate Capacity count by hour/minutes (year, month, day)
     - [X] daily raw
-    - [ ] daily: for each station, for every 5 minutes in a day (14440/5), capacity
+    - [ ] daily: for each station, for every 5 minutes in a day (14440/5), capacity ( see `notebooks/yearly station usage.ipynb` )
 - [ ] Generate daily duration without bikes 
 - [ ] Cross-reference all start and end stations
 
 
-- [ ] WHY 2022 emplacement start with 1000?
+- [ ] WHY 2022 start_pk_emplacement starts with 1000?
+- [ ] WHY capacity sum to negatives?
 
 
 ## Questions

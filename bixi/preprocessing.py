@@ -117,7 +117,8 @@ def download_usage_by_month(csv_file):
     df['date'] = pd.to_datetime(df['start_date'])
     if 'is_member' in df.columns:
         df = df[['date', 'start_station_code', 'is_member']].groupby([
-                pd.Grouper(key='date', freq='M'), 
+                #  pd.Grouper(key='date', freq='M'), 
+                pd.Grouper(key='date', freq='D'), 
                 pd.Grouper('start_station_code'), 
                 #  pd.Grouper('is_member')
             ]).agg(['count', 'sum']).droplevel(axis=1, level=0).reset_index()
@@ -125,11 +126,20 @@ def download_usage_by_month(csv_file):
         df = df.rename(columns={'count': 'total_count', 'sum': 'member_count', })
     else: 
         df = df[['date', 'start_station_code', 'rental_id']].groupby([
-                pd.Grouper(key='date', freq='M'), 
+                #  pd.Grouper(key='date', freq='M'), 
+                pd.Grouper(key='date', freq='D'), 
                 pd.Grouper('start_station_code'), 
             ]).agg(['count']).droplevel(axis=1, level=0).reset_index()
         df = df.rename(columns={'count': 'total_count'})
-    return df
+
+    # groupby station_code to create monthly usage dataset for each station
+    g = df.groupby([
+            pd.Grouper('start_station_code'),
+            pd.Grouper(key='date', freq='M'), 
+        ], as_index=False)
+    dfs = [group for _, group in g]
+
+    return dfs
 
 def compute_station_daily_capacity_raw(deplacement_csv_path):
     """ 
@@ -143,7 +153,7 @@ def compute_station_daily_capacity_raw(deplacement_csv_path):
     """
     # 1. 
     df = pd.read_csv(deplacement_csv_path)
-    print(df.head())
+    df = df.astype({'start_station_code': 'int'})
 
     # 2. concatenate
     df_start = df[['start_date', 'start_station_code']]
@@ -168,7 +178,7 @@ def compute_station_daily_capacity_raw(deplacement_csv_path):
             pd.Grouper(key='timestamp', freq='D'),
             pd.Grouper('station_code')
         ], as_index=False)
-    dfs = [group.reset_index() for _, group in g]
+    dfs = [group for _, group in g]
     #  print(dfs[0])
 
     return dfs
@@ -187,15 +197,18 @@ def test_download_usage_by_month(deplacement_dir, usage_dir):
 
     for subdir, dirs, files in os.walk(deplacement_dir):
         year = subdir.split('/')[-1]
-        if not os.path.exists(os.path.join(usage_dir, year)):
-            os.makedirs(os.path.join(usage_dir, year))
-        for file in files: 
+        for file in tqdm(files): 
             csv_path = os.path.join(subdir, file)
-            print(csv_path)
-            df = download_usage_by_month(csv_path)
-            year, month, _ = str(pd.to_datetime(str(df['date'][0])).date()).split('-')
-            new_csv_path = os.path.join(usage_dir, year, f'usage_{year}-{month}.csv')
-            df.to_csv(new_csv_path, index=False)
+            #  print(csv_path)
+            dfs = download_usage_by_month(csv_path)
+            for df in tqdm(dfs): 
+                year, month, _ = str(pd.to_datetime(str(df['date'].iloc[-1])).date()).split('-')
+                station_code = str(df['start_station_code'].iloc[-1])
+                new_subdir = os.path.join(usage_dir, year, month)
+                if not os.path.exists(new_subdir):
+                    os.makedirs(new_subdir)
+                new_csv_path = os.path.join(new_subdir , f'usage_{year}_{month}_station_{station_code}.csv')
+                df.to_csv(new_csv_path, index=False)
 
 
 def test_get_daily_capacity(deplacement_dir, capacity_raw_dir):
@@ -236,8 +249,8 @@ def main():
     #  standardize_deplacements_data('bixi/data/deplacements_raw', 'bixi/data/deplacements')
     #  test_split_csv_monthly()
     #  print(pd.to_datetime('2020-04-15 06:00:04').date())
-    #  test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/usages/')
-    test_get_daily_capacity('bixi/data/deplacements/', 'bixi/data/capacity_raw/')
+    test_download_usage_by_month('bixi/data/deplacements/', 'bixi/data/monthly_usage/')
+    #  test_get_daily_capacity('bixi/data/deplacements/', 'bixi/data/capacity_raw/')
     
 
 if __name__ == "__main__":
