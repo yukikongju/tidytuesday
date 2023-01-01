@@ -1,0 +1,156 @@
+---
+title: "Untitled"
+author: "Emulie Chhor"
+date: "01/01/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(stats)
+```
+
+
+### Loading the data
+
+```{r}
+college <- read.csv("~/Projects/tidytuesday/college_majors/data/recent-grads.csv")
+```
+
+### Exploring the data
+
+```{r}
+names(college)
+summary(college)
+college %>% 
+  group_by("Major_category") %>% 
+  summarise(mean(Employed), mean(Median))
+```
+
+## Making the stem dataset
+
+```{r}
+unique(college$Major_category)
+stem_categories <- c("Engineering", "Business", 
+  "Computers & Mathematics", "Biology & Life Science", "Physical Sciences")
+non_stems_categories <- c("Law & Public Policy", "Agriculture & Natural Science", "Industrial Arts & Consumer Services", "Arts", "Health", "Social Science", "Education", 
+  "Humanities & Liberal Arts", "Psychology & Social Work", 
+  "Communications & Journalism", "Interdisciplinary")
+df_stem <- college %>% 
+  mutate(is_stem = ifelse(Major_category %in% stem_categories, "stem", "non-stem"))
+```
+
+### a) are there really more men in STEM than in non-STEM majors?
+
+H0: There is no difference between the proportion of women in STEM and non-STEM 
+  fields $p1-p2 = 0$
+H1: There is a difference between the proportion of women in STEM and non-STEM $p1-p2 != 0$
+
+We will choose $\alpha=0.5$, a confidence interval of 95% percent.
+
+We have a bilateral test: $P(|t|>t_{n-2}(0.025))$
+
+```{r}
+# this code generate NA not because there are NA values, but because there is a 0 value making a division by 0
+tmp <- df_stem %>% 
+  filter(!is.na(ShareWomen)) %>% 
+  dplyr::group_by(is_stem) %>% 
+  summarise_at(c("ShareWomen"), funs(mean = mean, sd = sd, count = dplyr::n()))
+
+# we are applying Laplace correction to avoid the division by 0
+gender_stem <- df_stem %>% 
+  filter(!is.na(ShareWomen)) %>% 
+  mutate(women_prop = (Women + 1) / Total) %>% 
+  dplyr::group_by(is_stem) %>% 
+  summarise_at(c("women_prop"), funs(mean = mean, sd = sd, count = dplyr::n()))
+
+# calculating the p-value
+n <- with(gender_stem, count[1]+ count[2])
+t <- with(gender_stem, abs((mean[1] - mean[2]) / (count[1]/ n * sd[1] + count[2] / n * sd[2])))
+2 * pt(t, df = n - 2, lower.tail = FALSE)
+```
+
+Since the p-value = 0.222 > 0.05, we can't reject H0. There is not enough evidence 
+to say that the proportion of STEM and non-STEM major gender proportion is different.
+
+## b) Do STEM major make more money than non-STEM majors?
+
+H0: There is no difference between the mean median of stem vs non-stem majors (p1 - p2 == 0)
+H1: There is a difference between the mean median of stem vs non-stem majors (p1 - p2 > 0)
+
+Unilateral test
+
+```{r}
+
+num_students <- sum(college[1:3, "Total"])
+num_students <- sum(college$Total, na.rm = TRUE)
+tmp <- df_stem %>% 
+  filter_at(vars(Total, Median), all_vars(!is.na(.))) %>% 
+  mutate(weights = Total / sum(Total)) %>% 
+  group_by(is_stem) %>% 
+  summarise(mean = (sum(weights * Median) / sum(weights)),
+            sd = sum(weights * (Median - mean))^2, 
+            count = sum(Total))
+
+
+
+# calculate pvalue
+n <- with(tmp, count[1]+ count[2])
+t <- with(tmp, abs((mean[2] - mean[1]) / (count[1]/ n * sd[1] + count[2] / n * sd[2])))
+# pt(t, df = n - 2, lower.tail = FALSE)
+pchisq(t, df = n - 2, lower.tail = FALSE)
+
+# alternative method
+chisq.test(tmp$mean)
+
+```
+The pvalue is around 0, which mean that we reject H0. Therefore, there is 
+enough evidence to say that STEM the median salary of stem majors graduates 
+is bigger than non-stem majors.
+
+## c) Are stem majors more employable? What is their emloyment rate?
+
+H0: the unemployment rate for stem and non-stem majors are the same (p1-p2 = 0)
+H1: the unemployment rate for non-stem is bigger than stem major (p1-p2 > 0)
+
+unilateral test
+
+```{r}
+tmp <- df_stem %>% 
+  group_by(is_stem) %>% 
+  summarise(mean = mean(Unemployment_rate), 
+            sd = mean(Unemployment_rate))
+
+chisq.test(tmp$mean)
+```
+
+Since pvalue<0.05, we reject H0 and we say that unemployment rate for non-stem 
+major is bigger than for stem majors.
+
+## d) Do non-stem majors use their diplomas less than stem majors?
+
+H0: There is no difference in the  percentage of stem and non-stem majors that use their diplomas 
+H1: Non-stem majors use their diplomas less than stem majors
+
+
+```{r}
+# using laplace correction
+tmp <- df_stem %>% 
+  filter_at(vars(College_jobs, Non_college_jobs), all_vars(!is.na(.))) %>% 
+  mutate(diploma_usage= (1 + College_jobs) / (College_jobs + Non_college_jobs + 1)) %>% 
+  group_by(is_stem) %>% 
+  summarise(mean = mean(diploma_usage), 
+            sd = sd(diploma_usage), 
+            count = n())
+
+n <- with(tmp, count[1]+ count[2])
+t <- with(tmp, abs((mean[2] - mean[1]) / (count[1]/ n * sd[1] + count[2] / n * sd[2])))
+pt(t, df = n - 2, lower.tail = FALSE)
+```
+
+Since pvalue>0.05, we say that there is not enough evidence to reject H0. Therefore, 
+we say that stems and non-stems major use their diplomas just as much.
+

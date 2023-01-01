@@ -1,0 +1,124 @@
+---
+title: "Untitled"
+author: "Emulie Chhor"
+date: "01/01/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(GGally)
+library(knitr)
+library(stats)
+```
+
+### Loading the data
+
+```{r}
+college <- read.csv("~/Projects/tidytuesday/college_majors/data/recent-grads.csv")
+```
+
+### Which variables are the most important when predicting salary
+
+Model 1: using all variables
+```{r}
+names(college)
+
+# checking pairs and correlation
+college_numeric <- college[, sapply(college, is.numeric)]
+# ggpairs(college_numeric)
+
+# plot 
+with(college, plot(ShareWomen, Median))
+
+# creating the model
+df <- college %>% 
+  select(-c("Rank", "Major_code"))
+
+model1 <- lm(Median~Total+Men+Women+factor(Major_category)+ ShareWomen + Employed 
+      + Full_time + Part_time + College_jobs + Non_college_jobs + Low_wage_jobs, data = college)
+
+# summary(model1)$coefficients
+
+# standardized residual plots
+plot(fitted(model1), residuals(model1), col='seagreen')
+abline(h=mean(residuals(model1)))
+
+
+```
+
+By plotting the scatterplot, it seems that the data is linear. Also, the 
+assumptions for the linear regression are met: 
+- independance of errors: there is no relationship between residuals
+- mean residuals is 0
+- homoscedaticity: the residuals variance is constant across all values.
+
+However, when plotting the standardized residuals plot, it seems that there is 
+a few outliers. We will plot the jacknived residuals and cook's Distance to 
+find and remove any outliers from our model
+
+```{r}
+
+which.max(residuals(model1))
+
+# finding outliers with 1.5 IQR
+residuals_model1 <- residuals(model1)
+Q1 <- quantile(residuals_model1, 0.25)
+Q3 <- quantile(residuals_model1, 0.75)
+IQR <- Q3 - Q1
+lower <- Q1 - 1.5 * IQR
+upper <- Q3 + 1.5 * IQR
+outliers_iqr <- which(residuals_model1 < lower | residuals_model1 > upper)
+college[outliers_iqr, ]
+
+# with Cook's Distance
+plot(fitted(model1), cooks.distance(model1), main = "Cook Distance", col='seagreen', 
+     xlab = "", ylab = "")
+cook_threshold <- 1 / (nrow(college) -2 -1)
+outliers_cook <- which(residuals_model1 > cook_threshold)
+
+college_no_outliers <- college[-outliers_iqr, ]
+```
+
+We are going to fit the data with no outliers onto a multiple linear regression
+
+```{r}
+names(college_numeric)
+college_numeric_no_outliers <- college_no_outliers[, sapply(college, is.numeric)] %>% 
+  select(-c("Rank", "Major_code"))
+
+model2 <- lm(Median~. , data = college_numeric_no_outliers)
+residuals_model2 <- residuals(model2)
+kable(summary(model2)$coefficients)
+```
+By taking $\alpha=0.05$, the variable that are significative in our model 
+are: 
+- ShareWomen
+- Unemployment_rate
+- P25th, P75th
+
+Let's build a third model with these variables only and perform a F test 
+to find the best model between these 3
+
+```{r}
+model3 <- lm(Median ~ ShareWomen + Unemployment_rate + P25th + P75th, 
+             data = college_numeric_no_outliers)
+
+summary(model3)$fstatistic[1]
+summary(model2)$fstatistic[1]
+summary(model1)$fstatistic[1]
+```
+Since the model 3 has the largest F statistic, we say it is the best fit.
+
+## b) TODO: What majors are dominated by men? by women?
+
+```{r}
+tmp <- college %>% 
+  group_by(Major_category) %>% 
+  mutate(weights = Total / sum(Total))
+
+```
+
+
