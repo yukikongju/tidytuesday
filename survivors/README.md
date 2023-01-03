@@ -8,8 +8,11 @@ in the `survivors` library. The confessionals can be found [here](https://github
 
 1. Is the jury bitter when voting for the winner?
    - Russell is arguably one of the best survivor played who has played the 
-     game, but has yet to win a season? Some argue it was because he had a poor 
-     social game, which is probably partially truth. 
+     game, but has yet to win a season. Some argue it was because he had a poor 
+     social game, which is probably partially truth in his case. However, 
+     can the same be said toward other finalist? Is the jury less likely 
+     to vote for a finalist if they had previous altercation or are they 
+     able to put their feeling aside and vote for the person that beat them?
 2. What makes a survivor winner? To answer this question, we will explore 
    several methods: 
    - Method 1: Can we predict winner using the following variables? 

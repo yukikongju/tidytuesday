@@ -1,61 +1,33 @@
 # Sentiment Analysis for Financial News
 
-**Data Augmentation**
-
-- [ ] Synonym Replacement
-- [ ] RD: Random Deletion
-- [ ] RS: Random Swap
-- [ ] RI: Random Insertion
-
-
-**Embedding**
-
-- [ ] Topic Modelling
-- [X] TextNormalization + OneHotVectorization
-- [X] NGrams Vectorizer
-- [ ] Word Embedding: Gensim.models
-    - [ ] Word2Vec
-    - [ ] FastText
-    - [ ] GloVe
+Before buying a stock, quantitative investors often perform a financial 
+analysis on the company they want to invest in. By investigating a 
+company balance sheet, one can have a pretty good grasp of the company 
+instrinsic value. However, this analysis is often insufficient to predict 
+stock price since a large body of investors invest with their emotions.
+By performing sentiment analysis on financial news, our goal is to gain 
+additional insights that may not be apparent with raw data alone.
 
 
-**Models to test**
+## Leading Questions
 
-- [o] Baseline
-    - [X] XGBoost
-    - [X] Naive Bayes
-    - [X] Decision Tree Classifier
-    - [ ] Logistic Regression
-    - [ ] SGD Classifier
-- [ ] Classic Deep Learning Models
-    - [ ] Sequential, CNN, RNN, LSTM, GRU
-- [ ] Transformers
-    - [ ] Bert
-    - [ ] Roberta
+1. Can we predict stock price and movement using financial news? 
+   - How do investors feel about a particular stock? We would like to study 
+     financial tweets
+2. Can we use sentiment analysis to identify immerging issues in risk? 
+   - Can we identify company that are caught up in fraud/scandals?
+   - Can we identify economic trend and government regulations that may impact
+     the company?
 
+## Methodology
 
-## Ressources
+Our first task is to classify whether a financial news is positive, negative 
+or neutral. To do so, we will first perform data cleaning and data augmentation 
+to make sure that our data is general enough. Then, we will test several 
+models using different preprocessing methods. 
 
-**Data Augmentation**
-
-- [ ] [Data Augmentation in NLP](https://maelfabien.github.io/machinelearning/NLP_8/#)
-
-
-**Embedding**
-
-- [X] [Word2Vec with TSNE](https://medium.com/swlh/word-embedding-word2vec-with-genism-nltk-and-t-sne-visualization-43eae8ab3e2e)
-- [ ] [Word2Vec TextClassification](https://ethen8181.github.io/machine-learning/keras/text_classification/word2vec_text_classification.html)
-
-**Datasets**
-
-- [X] [Kaggle FiQa Dataset](https://www.kaggle.com/datasets/sbhatti/financial-sentiment-analysis)
-- [ ] [Kaggle FinancialPhraseBank Dataset](https://www.kaggle.com/datasets/ankurzing/sentiment-analysis-for-financial-news)
-- [ ] [Kaggle Financial Tweets](https://www.kaggle.com/datasets/vivekrathi055/sentiment-analysis-on-financial-tweets)
-
-**Notebooks**
-
-- [ ] [Mastering Sentiment Analysis](https://www.kaggle.com/code/magedmahmoud/mastering-sentiment-analysis)
-- [ ] [Text Classification with NLP features engineering](https://towardsdatascience.com/text-classification-with-nlp-tf-idf-vs-word2vec-vs-bert-41ff868d1794)
-
-
+Once we are able to classify the financial news, we are going to do a bit more 
+investigation inside positive title and negative one. Since we won't have 
+any label for this task, our risk analysis will be based mostly on clustering 
+and dimension reduction in order to group similar news together. 
 
