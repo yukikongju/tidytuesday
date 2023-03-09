@@ -1,0 +1,208 @@
+user,state,action,url,date_time,date,device,city,country
+user 1,1,,B,6/13/2022 0:05:45576,2022-06-13,Android 12.0,Quebec,Canada
+user 2,,Action 1,A,6/13/2022 0:05:46398,2022-06-13,,,
+user 1,1,,B,6/13/2022 0:05:49339,2022-06-13,Android 12.0,Quebec,Canada
+user 1,1,,B,6/13/2022 0:05:52960,2022-06-13,Android 12.0,Quebec,Canada
+user 2,2,,C,6/13/2022 0:05:57234,2022-06-13,Android 2.0,Quebec,Canada
+user 1,1,,B,6/13/2022 0:05:58477,2022-06-13,Android 12.0,Quebec,Canada
+user 2,2,,C,6/13/2022 0:06:06809,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,C,6/13/2022 0:06:13388,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,C,6/13/2022 0:06:18234,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:37264,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:41176,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:42728,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:44120,2022-06-13,Android 2.0,Quebec,Canada
+user 2,2,,D,6/13/2022 0:06:49950,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:54329,2022-06-13,Android 2.0,Quebec,Canada
+user 2,1,,D,6/13/2022 0:06:56655,2022-06-13,Android 2.0,Quebec,Canada
+user 3,2,,E,6/13/2022 0:21:16661,2022-06-13,LG-M703,Quebec,Canada
+user 3,2,,E,6/13/2022 0:21:20404,2022-06-13,LG-M703,Quebec,Canada
+user 3,2,,E,6/13/2022 0:21:22842,2022-06-13,LG-M703,Quebec,Canada
+user 3,4,,E,6/13/2022 0:21:26453,2022-06-13,LG-M703,Quebec,Canada
+user 4,2,,E,6/13/2022 0:34:22347,2022-06-13,SM-J327W,Quebec,Canada
+user 4,2,,E,6/13/2022 0:34:25453,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:34:28359,2022-06-13,SM-J327W,Quebec,Canada
+user 4,2,,E,6/13/2022 0:34:32685,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:34:40485,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:34:42606,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:34:51608,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:34:56502,2022-06-13,SM-J327W,Quebec,Canada
+user 4,2,,E,6/13/2022 0:34:58973,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:35:01579,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:35:03132,2022-06-13,SM-J327W,Quebec,Canada
+user 4,2,,E,6/13/2022 0:35:04368,2022-06-13,SM-J327W,Quebec,Canada
+user 4,2,,E,6/13/2022 0:35:08661,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:35:11734,2022-06-13,SM-J327W,Quebec,Canada
+user 4,1,,E,6/13/2022 0:35:15709,2022-06-13,SM-J327W,Quebec,Canada
+user 5,,Action 2,F,6/13/2022 0:36:15870,2022-06-13,,,
+user 6,,Action 2,A,6/13/2022 0:37:29347,2022-06-13,,,
+user 7,4,,B,6/13/2022 0:42:30231,2022-06-13,iPhone,Quebec,Canada
+user 8,1,,A,6/13/2022 0:53:37657,2022-06-13,Android 2.0,,Canada
+user 8,1,,A,6/13/2022 0:53:39480,2022-06-13,Android 2.0,,Canada
+user 8,2,,A,6/13/2022 0:53:43716,2022-06-13,Android 2.0,,Canada
+user 8,1,,A,6/13/2022 0:53:49466,2022-06-13,Android 2.0,,Canada
+user 8,,Action 3,A,6/13/2022 0:53:52123,2022-06-13,,,
+user 9,3,,D,6/13/2022 0:55:55235,2022-06-13,iPhone,Quebec,Canada
+user 10,2,,G,6/13/2022 0:55:57874,2022-06-13,SM-G973W,New Brunswick,Canada
+user 9,3,,D,6/13/2022 0:55:57885,2022-06-13,iPhone,Quebec,Canada
+user 9,3,,D,6/13/2022 0:56:06768,2022-06-13,iPhone,Quebec,Canada
+user 9,3,,D,6/13/2022 0:56:08286,2022-06-13,iPhone,Quebec,Canada
+user 10,2,,G,6/13/2022 0:56:08648,2022-06-13,SM-G973W,New Brunswick,Canada
+user 10,2,,G,6/13/2022 0:56:11878,2022-06-13,SM-G973W,New Brunswick,Canada
+user 9,3,,D,6/13/2022 0:56:13680,2022-06-13,iPhone,Quebec,Canada
+user 9,3,,D,6/13/2022 0:56:17518,2022-06-13,iPhone,Quebec,Canada
+user 9,3,,D,6/13/2022 0:56:20530,2022-06-13,iPhone,Quebec,Canada
+user 9,3,,D,6/13/2022 0:56:31271,2022-06-13,iPhone,Quebec,Canada
+user 9,,Action 4,D,6/13/2022 0:56:34367,2022-06-13,,,
+user 9,,Action 5,D,6/13/2022 0:56:35715,2022-06-13,,,
+user 11,4,,E,6/13/2022 0:56:48251,2022-06-13,iPhone,Quebec,Canada
+user 11,4,,E,6/13/2022 0:56:53636,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:56:59620,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:02652,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:08586,2022-06-13,iPhone,Quebec,Canada
+user 11,3,,E,6/13/2022 0:57:11336,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:19671,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:22704,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:24422,2022-06-13,iPhone,Quebec,Canada
+user 11,2,,E,6/13/2022 0:57:30470,2022-06-13,iPhone,Quebec,Canada
+user 12,,Action 6,H,6/13/2022 0:58:50343,2022-06-13,,,
+user 13,,Action 2,B,6/13/2022 0:59:20636,2022-06-13,,,
+user 13,,Action 2,B,6/13/2022 0:59:21117,2022-06-13,,,
+user 14,2,,E,6/13/2022 1:01:24663,2022-06-13,SM-G991W,Quebec,Canada
+user 14,1,,E,6/13/2022 1:01:27841,2022-06-13,SM-G991W,Quebec,Canada
+user 14,1,,E,6/13/2022 1:01:31153,2022-06-13,SM-G991W,Quebec,Canada
+user 14,2,,E,6/13/2022 1:01:32613,2022-06-13,SM-G991W,Quebec,Canada
+user 15,2,,I,6/13/2022 1:03:34920,2022-06-13,MAR-LX3A,Ontario,Canada
+user 15,2,,I,6/13/2022 1:03:38240,2022-06-13,MAR-LX3A,Ontario,Canada
+user 15,1,,I,6/13/2022 1:03:46480,2022-06-13,MAR-LX3A,Ontario,Canada
+user 15,1,,I,6/13/2022 1:03:48749,2022-06-13,MAR-LX3A,Ontario,Canada
+user 16,1,,J,6/13/2022 1:06:33521,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,J,6/13/2022 1:06:35180,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,J,6/13/2022 1:06:36244,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,J,6/13/2022 1:06:37397,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,J,6/13/2022 1:06:40366,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:12:38705,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:12:41727,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:12:45186,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:12:51100,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:00980,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:13:03636,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:07730,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:08502,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:10540,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:13:11314,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:12653,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:13837,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:13847,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:15170,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:13:15315,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:17600,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:24900,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:25415,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:26969,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:27137,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:28231,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:28698,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:13:30486,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:32665,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:33670,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,K,6/13/2022 1:13:34319,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:38600,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:45973,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:48490,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:13:51156,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:00335,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:03565,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:06671,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:08410,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:09722,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:14617,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:16172,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:19970,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:20784,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:23990,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:28109,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:38862,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:42860,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:46128,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:49986,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,B,6/13/2022 1:14:52580,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:14:55783,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:15:02670,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:15:06490,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,B,6/13/2022 1:15:09535,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,L,6/13/2022 1:16:00387,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,L,6/13/2022 1:16:01574,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:02207,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,L,6/13/2022 1:16:02842,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,L,6/13/2022 1:16:05480,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:07362,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:09148,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,L,6/13/2022 1:16:09350,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:13132,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:15195,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:20608,2022-06-13,SM-G950F,Quebec,Canada
+user 16,2,,M,6/13/2022 1:16:23229,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:27623,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:29153,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:32292,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:33788,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:41393,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:46436,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:50982,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,M,6/13/2022 1:16:52984,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,N,6/13/2022 1:17:39250,2022-06-13,SM-G950F,Quebec,Canada
+user 16,1,,N,6/13/2022 1:17:41130,2022-06-13,SM-G950F,Quebec,Canada
+user 17,3,,E,6/13/2022 1:24:46578,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 18,3,,E,6/13/2022 1:24:55986,2022-06-13,iPhone,Quebec,Canada
+user 17,3,,E,6/13/2022 1:24:58286,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 18,3,,E,6/13/2022 1:24:59801,2022-06-13,iPhone,Quebec,Canada
+user 18,3,,E,6/13/2022 1:25:04169,2022-06-13,iPhone,Quebec,Canada
+user 18,3,,E,6/13/2022 1:25:07353,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:08612,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:10325,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:14708,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:17180,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:18282,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:19542,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:21797,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:24525,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:24990,2022-06-13,iPhone,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:25399,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:27553,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:30733,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:32304,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:35283,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,E,6/13/2022 1:25:37293,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 20,3,,E,6/13/2022 1:25:38453,2022-06-13,iPhone,Quebec,Canada
+user 19,3,,O,6/13/2022 1:25:39434,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,P,6/13/2022 1:25:40564,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,P,6/13/2022 1:25:44100,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,P,6/13/2022 1:25:45251,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:25:46204,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:25:47735,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:25:49152,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:25:51262,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,2,,P,6/13/2022 1:25:51356,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 21,4,,Q,6/13/2022 1:25:51400,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,P,6/13/2022 1:25:57131,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,3,,M,6/13/2022 1:25:58646,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,3,,P,6/13/2022 1:26:03193,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,P,6/13/2022 1:26:10612,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,P,6/13/2022 1:26:13369,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,2,,P,6/13/2022 1:26:17440,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 22,3,,E,6/13/2022 1:26:30158,2022-06-13,iPhone,Quebec,Canada
+user 22,4,,E,6/13/2022 1:26:31941,2022-06-13,iPhone,Quebec,Canada
+user 22,3,,E,6/13/2022 1:26:35191,2022-06-13,iPhone,Quebec,Canada
+user 17,4,,M,6/13/2022 1:26:55407,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:27:03235,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:27:13545,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,3,,M,6/13/2022 1:27:16744,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:27:26676,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,3,,M,6/13/2022 1:27:27862,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:27:29607,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,M,6/13/2022 1:27:31914,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,,Action 4,M,6/13/2022 1:27:32580,2022-06-13,,,
+user 17,,Action 5,M,6/13/2022 1:27:34711,2022-06-13,,,
+user 17,3,,R,6/13/2022 1:28:02847,2022-06-13,Pixel 2 XL,Quebec,Canada
+user 17,4,,R,6/13/2022 1:28:09197,2022-06-13,Pixel 2 XL,Quebec,Canada
