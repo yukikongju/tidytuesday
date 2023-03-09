@@ -17,6 +17,14 @@
 | 25-04-2020  | US Births                 | Tidy Tuesday              | https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-01-14  |
 | 25-04-2020  | Board Games               | Tidy Tuesday              | https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-03-12  |
 
+## Subject to Explore
+
+- [ ] Sports Betting 
+  - EV and positive arbitrage; using ML to predict winner / looser percentage
+  - get results from NFL, NBA, NHL, Tennis, AUDL
+  - get betting site betting cost
+- [ ] Genome 
+
 
 ## Datasets to Explore
 
