@@ -79,5 +79,6 @@
 - [Human Connectome Database](https://db.humanconnectome.org/app/template/Login.vm)
 - [Study Forrest - Brain](https://www.studyforrest.org/)
 - [Public Dataset](https://github.com/public-apis/public-apis?tab=readme-ov-file)
+- [Rapid APIs](https://rapidapi.com/hub)
 
 
