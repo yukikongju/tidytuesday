@@ -62,6 +62,11 @@
 - [CS:GO Competitive Matchmaking Data](https://www.kaggle.com/datasets/skihikingkevin/csgo-matchmaking-damage?select=esea_meta_demos.part1.csv)
 - [Bixi Montreal](https://bixi.com/en/open-data)
 
+TidyTuesday:
+- [Carbon Emissions Data](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-05-21/readme.md)
+- [FBI Crime Data](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-02-18/readme.md)
+- [Water Insecurity](https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28)
+
 
 ## Ressources
 
