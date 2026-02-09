@@ -3,13 +3,28 @@ name = "tidytuesday"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
-    "category-encoders>=2.9.0",
     "duckdb>=1.4.4",
+    # "category-encoders>=2.9.0",
+    # "duckdb>=1.4.4",
+    # "matplotlib>=3.10.8",
+    # # "mlflow-skinny>=2.22.0",
+    # "mlflow>=3.9.0",
+    # # "mlflow>=3.8.1",
+    # "notebook>=7.5.3",
+    # # "pandas>=3.0.0",
+    # # "protobuf>=6.33.5",
+    # "pandas>=2.3.3",
+    # "protobuf<4.0.0",
+    # "scikit-learn>=1.8.0",
+    # "xgboost>=3.1.3",
     "matplotlib>=3.10.8",
+    "mlflow>=3.9.0",
     "notebook>=7.5.3",
-    "pandas>=3.0.0",
-    "scikit-learn>=1.8.0",
-    "xgboost>=3.1.3",
+    # "numpy>=1.26.4",
+    "pandas>=2.3.3",
+    # "polars>=1.38.1",
+    # "polars-lts-cpu>=1.33.1",
+    "seaborn>=0.13.2",
 ]
